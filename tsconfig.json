@@ -34,7 +34,10 @@
       ],
       "@config/*": [
         "config/*"
-      ]
+      ],
+      "@templates/*": [
+        "templates/*"
+      ],
     }
   },
   "include": [

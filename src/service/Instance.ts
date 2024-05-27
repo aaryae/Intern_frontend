@@ -1,7 +1,8 @@
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
 
-const Instance: AxiosInstance = axios.create(
-    { baseURL: import.meta.env.BASE_URL }
+export const api = axios.create(
+    { baseURL: import.meta.env.VITE_APP_BASE_URL,
+        timeout:import.meta.env.VITE_APP_
+     }
 )
 
-export default Instance;

@@ -13,7 +13,9 @@ body {
 
 }
 
-
+.index {
+  z-index: 1;
+}
 
 .shade {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
@@ -22,11 +24,9 @@ body {
 
 
 .lingrad {
-  background: linear-gradient(75deg, #1351a8 10%, #162e66) !important;
+  background: linear-gradient(75deg, #10315f 10%, #0a1b42) !important;
 }
 
-.bottomlast {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+.hovtext {
+  text-shadow: 9px 5px 24px white;
 }

@@ -34,11 +34,11 @@ const Navbar = () => {
 
                     <h1 className="text-5xl tracking-wide font-bold m-2 my-auto text-white">aaryae</h1>
                     <ul className={`hidden md:flex my-auto  `}>
-                        <li className="p-2 text-white  m-2 hover:text-[#1c1c4d] font-semibold "><Link to='/'>Home</Link></li>
-                        <li className="p-2 text-white  m-2 hover:text-[#1c1c4d] font-semibold"><Link to='/about'>About</Link></li>
-                        <li className="p-2 text-white  m-2 hover:text-[#1c1c4d] font-semibold"><Link to='/contact'>Contact</Link></li>
-                        <li className="p-2 text-white  m-2 hover:text-[#1c1c4d] font-semibold"><Link to='/services'>Services</Link></li>
-                        <li className="p-2 text-white  m-2 hover:text-[#1c1c4d] font-semibold"><Link to='/login'>Login</Link></li>
+                        <li className="p-2 text-white  m-2 hovtext font-semibold "><Link to='/'>Home</Link></li>
+                        <li className="p-2 text-white  m-2 hovtext font-semibold"><Link to='#'>About</Link></li>
+                        <li className="p-2 text-white  m-2 hovtext font-semibold"><Link to='#'>Contact</Link></li>
+                        <li className="p-2 text-white  m-2 hovtext font-semibold"><Link to='#'>Services</Link></li>
+                        <li className="p-2 text-white  m-2 hovtext font-semibold"><Link to='/login'>Login</Link></li>
                     </ul>
 
                     <div onClick={handleClick} className="block md:hidden p-2 m-2 my-auto">
@@ -51,8 +51,8 @@ const Navbar = () => {
             <Navbarhelper />
 
             {nav && (
-                <ul id="ui" className=" h-[100vh] fixed w-full block md:hidden bg-[#000000] text-white text-center ">
-                    <div className=" flex flex-col justify-center items-center">
+                <ul className=" h-[100vh] fixed w-full block md:hidden bg-[#000000] text-white text-center index ">
+                    <div className=" flex flex-col justify-center items-center h-full">
 
                         <li className="p-2  m-2 hover:text-[#1c1c4d] font-semibold"><Link to='/'>Home</Link></li>
                         <li className="p-2  m-2 hover:text-[#1c1c4d] font-semibold"><Link to='/about'>About</Link></li>

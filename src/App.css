@@ -27,7 +27,6 @@ body {
   background: linear-gradient(75deg, #10315f 10%, #0a1b42) !important;
 }
 
-.hovtext {
+.hovtext:hover {
   text-shadow: 9px 5px 24px white;
 }
-

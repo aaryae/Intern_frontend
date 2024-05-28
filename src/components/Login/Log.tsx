@@ -1,6 +1,8 @@
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { api } from "../../service/Instance";
+import { axio } from "../../service/Instance";
 
 interface formdata {
     email: string;
@@ -10,18 +12,14 @@ interface formdata {
 
 
 const Log = () => {
+    const [showpassword, setshowpassword] = useState<boolean>(false);
     const form = useForm<formdata>();
     const navigate = useNavigate();
-    const { register, handleSubmit, formState:{errors} } = form;
-
-
-
+    const { register, handleSubmit, formState: { errors } } = form;
 
 
     const onSubmit: SubmitHandler<formdata> = (data) => {
-
-
-        api({
+        axio({
             method: 'post',
             url: '/auth',
             data: {
@@ -29,12 +27,20 @@ const Log = () => {
                 password: data.password
             }
         }).then((response) => {
+            console.log(response)
+            localStorage.setItem("token", response.data.data.tokens.accessToken);
             navigate('/admindashboardui');
             console.log(response);
         })
-            .catch(error => console.log(error));
+            .catch((error) => { console.log(error) },
+
+            );
     }
 
+    const handlepasswordshow = () => {
+        setshowpassword(prevshowpassword => !prevshowpassword);
+
+    }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="mx-auto flex min-h-screen w-full items-center justify-center bg-gray-900 text-white">
@@ -56,19 +62,32 @@ const Log = () => {
                         className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
                     />
                 </div>
-                <span className="text-sm text-red-900">{errors.email?.message}</span>
+                <span className="text-sm text-[#f11111] tracking-wider !mt-3">{errors.email?.message}</span>
 
-                <div className="w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-indigo-500">
+                <div className=" flex -between w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-indigo-500">
                     <input
                         {...register("password", {
-                            required: 'password is required '
+                            required: "Password is required",
+                            minLength: {
+                                value: 4,
+                                message: "Password must be more than 4 characters"
+                            },
+                            maxLength: {
+                                value: 12,
+                                message: "Password cannot exceed more than 12 characters"
+                            },
+
                         })}
-                        type="password"
+
+                        type={showpassword ? "text" : "password"}
                         placeholder="Password"
                         className="w-full border-none bg-transparent outline-none placeholder:italic focus:outline-none"
                     />
+                    <button onClick={handlepasswordshow} >
+                        {showpassword ? <Eye /> : <EyeOff />}
+                    </button>
                 </div>
-                <span className="text-sm text-red-900">{errors.password?.message}</span>
+                <span className="text-sm text-[#f11111] !mt-3" >{errors.password?.message}</span>
 
                 <button
                     type="submit"

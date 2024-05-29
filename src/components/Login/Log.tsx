@@ -95,7 +95,7 @@ const Log = () => {
                 >
                     LOG IN
                 </button>
-                <a href="#" className="transform text-center font-semibold text-gray-500 duration-300 hover:text-gray-300">FORGOT PASSWORD?</a>
+                <a href="/forgotpassword" className="transform text-center font-semibold text-gray-500 duration-300 hover:text-gray-300">FORGOT PASSWORD?</a>
                 <p className="text-center text-lg">
                     No account?
                     <a href="#" className="font-medium text-indigo-500 underline-offset-4 hover:underline">Create One</a>

@@ -2,7 +2,7 @@ import Navbar from "@components/Navbar/Navbar"
 import Footer from "@components/footer/Footer"
 import { Outlet } from "react-router-dom"
 
-const Templatey = () => {
+const AdminTemplate = () => {
     return (
         <>
             <Navbar />
@@ -12,4 +12,4 @@ const Templatey = () => {
     )
 }
 
-export default Templatey
+export default AdminTemplate

@@ -8,8 +8,7 @@ const Home = () => {
     return (
         <>
             <div style={{ backgroundImage: `url(${image?.mainbg})` }} className='bg-cover bg-no-repeat'>
-
-                <Herosection />
+            <Herosection />
             </div>
             <Boxinfo />
             <Sliderinfo />

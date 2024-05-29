@@ -1,4 +1,4 @@
-import Adminnavbar from "@components/AdminNavbar/Adminnavbar"
+import Adminnavbar from "@components/adminNavbar/Adminnavbar"
 import { Outlet } from "react-router-dom"
 
 const AdminTemplate = () => {

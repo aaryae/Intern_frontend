@@ -1,5 +1,7 @@
+import Admindashboard from '@components/adminDashboard/Admindashboard';
 import Adminhome from '@components/adminhome/Adminhome';
 import Adminlist from '@components/adminlistui/Adminlist';
+import Forgotpassword from '@components/forgotpassword/Forgotpassword';
 import Home from '@pages/Home';
 import Login from '@pages/Login';
 import AdminTemplate from '@templates/AdminTemplate';
@@ -14,6 +16,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: '/login', element: <Login /> },
+      { path: '/forgotpassword', element: <Forgotpassword /> },
 
     ]
   },
@@ -24,6 +27,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Adminhome /> },
       { path: 'editadmin', element: <Adminlist /> },
+      { path: 'dashboard', element: <Admindashboard /> },
 
     ]
   }

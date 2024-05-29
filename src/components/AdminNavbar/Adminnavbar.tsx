@@ -10,7 +10,7 @@ const AdminNavbar = () => {
 
     return (
         <>
-            <aside className="w-72 bg-[#1c212c] min-h-full h-screen flex flex-col items-center pt-5 pb-2 space-y-7">
+            <aside className="w-72 bg-[#1c212c] min-h-full h-screen fixed flex flex-col items-center pt-5 pb-2 space-y-7 mr-72">
                 <div className="w-full pr-3 flex flex-col gap-y-1 text-gray-500 fill-gray-500 text-sm">
                     <div className="font-QuicksandMedium pl-4 text-gray-400/60 text-xs text-[11px] uppercase">Menu</div>
                     <div className="w-full flex items-center gap-x-1.5 group select-none">
@@ -77,6 +77,9 @@ const AdminNavbar = () => {
                     </div>
                 </div>
             </aside>
+            <div className=" m-h-screen h-screen w-72">
+
+            </div>
         </>
     )
 }

@@ -1,4 +1,4 @@
-import Log from "@components/Login/Log"
+import Log from "@components/login/Log"
 
 const Login = () => {
     return (

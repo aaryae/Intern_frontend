@@ -2,7 +2,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { axio } from "../../service/Instance";
+import axios from "../../service/Instance";
 
 interface formdata {
     email: string;
@@ -13,15 +13,21 @@ interface formdata {
 
 const Log = () => {
     const [showpassword, setshowpassword] = useState<boolean>(false);
+    const [errormessage, seterrormessage] = useState<string | null>('')
+    // const [timetracker, settimetracker] = useState<boolean>(true);
+    const [errorvalue, seterrorvalue] = useState<boolean>(false)
     const form = useForm<formdata>();
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = form;
 
 
     const onSubmit: SubmitHandler<formdata> = (data) => {
-        axio({
+        axios({
             method: 'post',
             url: '/auth',
+            headers: {
+                Authorization: `Bearer `,
+            },
             data: {
                 username: data.email,
                 password: data.password
@@ -29,11 +35,15 @@ const Log = () => {
         }).then((response) => {
             console.log(response)
             localStorage.setItem("token", response.data.data.tokens.accessToken);
-            navigate('/admindashboardui');
-            console.log(response);
-        })
-            .catch((error) => { console.log(error) },
+            navigate('/admin');
 
+
+        })
+            .catch((error) => {
+                seterrormessage(error.response.data.message)
+                seterrorvalue(true),
+                console.log(error)
+            }
             );
     }
 
@@ -41,6 +51,20 @@ const Log = () => {
         setshowpassword(prevshowpassword => !prevshowpassword);
 
     }
+
+    // useEffect(() => {
+    //     const displayerror = () => {
+    //         const handler = setTimeout(() => {
+    //             settimetracker(true);
+    //             // return (
+    //             //     clearTimeout(handler)
+    //             // )
+
+
+    //         }, 2000);
+    //     }
+    //     displayerror();
+    // })
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="mx-auto flex min-h-screen w-full items-center justify-center bg-gray-900 text-white">
@@ -100,6 +124,9 @@ const Log = () => {
                     No account?
                     <a href="#" className="font-medium text-indigo-500 underline-offset-4 hover:underline">Create One</a>
                 </p>
+                {errorvalue && (
+                    <div className=" text-[#f11111]" text-xl text-center>{errormessage}</div>
+                )}
             </section>
         </form>
     );

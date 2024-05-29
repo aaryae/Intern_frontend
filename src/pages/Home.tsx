@@ -1,4 +1,4 @@
-import Boxinfo from "@components/Boxinfo/Boxinfo"
+import Boxinfo from "@components/boxinfo/Boxinfo"
 import Cards from "@components/cards/Cards"
 import Herosection from "@components/hero/Herosection"
 import Sliderinfo from "@components/sliderinfo/Sliderinfo"

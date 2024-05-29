@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const axio = axios.create(
+export default axios.create(
     {
         baseURL: import.meta.env.VITE_APP_BASE_URL,
-        timeout: import.meta.env.VITE_APP_
+        timeout: import.meta.env.VITE_APP_TIME_OUT
     }
 )
 

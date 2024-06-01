@@ -3,11 +3,8 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "../../service/Instance";
+import { formdata } from "types/global.types";
 
-interface formdata {
-    email: string;
-    password: string;
-}
 
 
 
@@ -21,31 +18,24 @@ const Log = () => {
     const { register, handleSubmit, formState: { errors } } = form;
 
 
-    const onSubmit: SubmitHandler<formdata> = (data) => {
-        axios({
-            method: 'post',
-            url: '/auth',
-            headers: {
-                Authorization: `Bearer `,
-            },
-            data: {
-                username: data.email,
-                password: data.password
-            }
-        }).then((response) => {
-            console.log(response)
-            localStorage.setItem("token", response.data.data.tokens.accessToken);
+    const onSubmit: SubmitHandler<formdata> = async (data) => {
+        try {
+            const response = await axios({
+                method: 'post',
+                url: '/auth',
+                data: {
+                    username: data.email,
+                    password: data.password
+                }
+            });
+            localStorage.setItem("accesstoken", response.data.data.tokens.accessToken);
             navigate('/admin');
-
-
-        })
-            .catch((error) => {
-                seterrormessage(error.response.data.message)
-                seterrorvalue(true),
-                console.log(error)
-            }
-            );
-    }
+        } catch (error) {
+            seterrormessage('An error occurred');
+            seterrorvalue(true);
+            console.error(error);
+        }
+    };
 
     const handlepasswordshow = () => {
         setshowpassword(prevshowpassword => !prevshowpassword);
@@ -125,7 +115,7 @@ const Log = () => {
                     <a href="#" className="font-medium text-indigo-500 underline-offset-4 hover:underline">Create One</a>
                 </p>
                 {errorvalue && (
-                    <div className=" text-[#f11111]" text-xl text-center>{errormessage}</div>
+                    <div className=" text-[#f11111] text-center text-xl">{errormessage}</div>
                 )}
             </section>
         </form>

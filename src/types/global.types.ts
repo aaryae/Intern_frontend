@@ -17,7 +17,7 @@ export interface apiresponse {
     email: string,
     role: string,
     username: string,
-    createdat: string
+    createdate: string
 }
 
 
@@ -31,3 +31,20 @@ export interface formdata {
     password: string;
 }
 
+export interface CreateUserInterface {
+    email: string
+    password: string
+    role: string
+    allowedFeature: string[]
+    details: {
+        firstName: {
+            en: string
+            ne: string
+        },
+        lastName: {
+            en: string
+            ne: string
+        },
+        phoneNumber: string;
+    }
+}

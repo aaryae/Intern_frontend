@@ -38,6 +38,9 @@
       "@templates/*": [
         "templates/*"
       ],
+      "@service/*": [
+        "service/*"
+      ],
     }
   },
   "include": [

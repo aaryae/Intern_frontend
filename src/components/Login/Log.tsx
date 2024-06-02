@@ -2,8 +2,8 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import axios from "../../service/Instance";
 import { formdata } from "types/global.types";
+import axios from "../../service/Instance";
 
 
 
@@ -41,20 +41,6 @@ const Log = () => {
         setshowpassword(prevshowpassword => !prevshowpassword);
 
     }
-
-    // useEffect(() => {
-    //     const displayerror = () => {
-    //         const handler = setTimeout(() => {
-    //             settimetracker(true);
-    //             // return (
-    //             //     clearTimeout(handler)
-    //             // )
-
-
-    //         }, 2000);
-    //     }
-    //     displayerror();
-    // })
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="mx-auto flex min-h-screen w-full items-center justify-center bg-gray-900 text-white">

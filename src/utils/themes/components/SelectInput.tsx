@@ -1,19 +1,22 @@
-interface Option {
-    value: string;
-    label: string;
-}
+import { UseFormRegister } from "react-hook-form";
+
 interface SelectInputProps {
     name: string;
-    options: Option[];
+    options: {
+        value: string;
+        label: string;
+    }[]
     placeholder?: string;
+    register: UseFormRegister<any>
 }
-const SelectInput = ({ name, options }: SelectInputProps) => {
+const SelectInput = ({ name, options, register }: SelectInputProps) => {
     return (
         <>
-            <label htmlFor={name} className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">{name}</label>
             <select
                 id={name}
-                className="block  w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded  text-sm">
+                className="block  w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded  text-sm"
+                {...register(name)}
+            >
 
                 {options.map(option => (
                     <option key={option.value} value={option.value}>

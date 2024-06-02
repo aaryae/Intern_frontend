@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiresponse } from "types/global.types";
+import Heading from "utils/themes/components/Heading";
 import axios from "../../service/Instance";
 
 const Adminlist = () => {
@@ -26,18 +27,47 @@ const Adminlist = () => {
         fetchData();
     }, []);
 
+
+
     const handlenavigation = (id: string) => {
         navigate(
-            '/admin/editadmin/admindetails',
+            '/admin/adminlist/admindetails',
             {
                 state: { id }
             }
         );
     }
 
+    const handledelete = (id: string) => {
+        const deletedata = async () => {
+            try {
+                await axios({
+                    method: 'delete',
+                    url: `/admin/${id}`,
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accesstoken")}`,
+                    },
+                    data: { id }
+                });
+
+                setfetchdata(prevData => prevData.filter(item => item.id !== id));
+            }
+            catch (error) {
+                console.error(error);
+            }
+        };
+
+        deletedata();
+    }
+
+
+
+
+
     return (
-        <div className="w-full h-72 flex items-center justify-center">
-            <table className="table-auto p-2">
+        <div className="w-full h-72 flex  flex-col items-center justify-center">
+            <Heading value="Admin List" />
+            <table className="table-auto p-2 m-4">
                 <thead className="border-2 border-black p-2">
                     <tr className="border-2 border-black p-2">
                         <th className="border-2 border-black p-2">S.N.</th>
@@ -48,7 +78,9 @@ const Adminlist = () => {
                         <th className="border-2 border-black p-2">Email</th>
                         <th className="border-2 border-black p-2">Role</th>
                         <th className="border-2 border-black p-2">Username</th>
-                        <th className="border-2 border-black p-2">Edit</th>
+                        <th className="border-2 border-black p-2">Detail</th>
+                        {/* <th className="border-2 border-black p-2">Edit</th> */}
+                        <th className="border-2 border-black p-2">Delete</th>
                     </tr>
                 </thead>
                 <tbody className="border-2 border-black p-2">
@@ -63,7 +95,12 @@ const Adminlist = () => {
                             <td className="border-2 border-black p-2 capitalize">{item.role?.toLowerCase()?.replace("_", " ")}</td>
                             <td className="border-2 border-black p-2">{item.username}</td>
                             <td className="border-2 border-black p-2">
-                                <div onClick={() => handlenavigation(item.id)}>
+
+                                <p onClick={() => handlenavigation(item.id)} className="underline cursor-pointer text-blue-600 hover:text-red-700">view</p>
+
+                            </td>
+                            {/* <td className="border-2 border-black p-2">
+                                <div onClick={() => handleeditnavigation(item.id)}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-cog text-green-500 cursor-pointer">
                                         <circle cx="18" cy="15" r="3" />
                                         <circle cx="9" cy="7" r="4" />
@@ -77,6 +114,12 @@ const Adminlist = () => {
                                         <path d="m14.3 16.6 1-.4" />
                                         <path d="m20.7 13.8 1-.4" />
                                     </svg>
+                                </div>
+                            </td> */}
+                            <td className="border-2 border-black p-2">
+                                <div onClick={() => handledelete(item?.id)}>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-trash text-red-800 flex items-center w-full cursor-pointer"><path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" /></svg>
                                 </div>
                             </td>
                         </tr>

@@ -5,9 +5,7 @@ const AdminTemplate = () => {
     return (
         <>
             <div className="flex h-fit w-full justify-between">
-
                 <Adminnavbar />
-
                 <Outlet />
             </div>
 

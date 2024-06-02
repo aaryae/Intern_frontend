@@ -8,6 +8,7 @@ export interface InputProps {
     register: UseFormRegister<any>;
     type?: string;
     placeholder?: string;
+
     // onChange: string;
 }
 

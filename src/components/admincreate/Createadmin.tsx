@@ -1,5 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import { SubmitHandler, useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom"
 import { CreateUserInterface } from "types/global.types"
 import Button from "utils/themes/components/Button"
 import Heading from "utils/themes/components/Heading"
@@ -7,7 +8,9 @@ import InputField from "utils/themes/components/InputField"
 import Label from "utils/themes/components/Label"
 import SelectInput from "utils/themes/components/SelectInput"
 import * as yup from "yup"
-import axios from "../../service/Instance"
+import axiosInstance from "../../service/Instance"
+
+
 
 const createadminschema = yup.object().shape({
     details: yup.object().shape({
@@ -29,6 +32,7 @@ const createadminschema = yup.object().shape({
 })
 
 const Createadmin = () => {
+    const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm<CreateUserInterface>(
         {
             resolver: yupResolver(createadminschema)
@@ -39,12 +43,10 @@ const Createadmin = () => {
 
     const onSubmit: SubmitHandler<CreateUserInterface> = async (data) => {
         try {
-            await axios({
+            await axiosInstance({
                 method: 'post',
                 url: '/admin',
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
-                },
+
                 data: {
                     email: data.email,
                     password: data.password,
@@ -64,7 +66,8 @@ const Createadmin = () => {
                 }
 
             });
-            
+            navigate('/admin/adminlist');
+
         } catch (error) {
             console.log(error);
         }

@@ -1,21 +1,24 @@
+import encryptDecrypt from "functions/encryptDecrypt";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { formdata } from "types/global.types";
+import Toaster from "toaster/Toaster";
+import { ToasterType, formdata } from "types/global.types";
 import axios from "../../service/Instance";
+
 
 
 
 
 const Log = () => {
     const [showpassword, setshowpassword] = useState<boolean>(false);
-    const [errormessage, seterrormessage] = useState<string | null>('')
-    // const [timetracker, settimetracker] = useState<boolean>(true);
-    const [errorvalue, seterrorvalue] = useState<boolean>(false)
+    const [toastervalue, settoastervalue] = useState<boolean | null>(null);
     const form = useForm<formdata>();
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = form;
+    const { encrypt } = encryptDecrypt;
+
 
 
     const onSubmit: SubmitHandler<formdata> = async (data) => {
@@ -28,11 +31,14 @@ const Log = () => {
                     password: data.password
                 }
             });
-            localStorage.setItem("accesstoken", response.data.data.tokens.accessToken);
+            const encrypted = encrypt(response.data.data.tokens.accessToken)
+            localStorage.setItem("accesstoken", encrypted as string);
+            settoastervalue(true)
+
             navigate('/admin');
         } catch (error) {
-            seterrormessage('An error occurred');
-            seterrorvalue(true);
+            settoastervalue(true)
+            // seterrorvalue(true);
             console.error(error);
         }
     };
@@ -44,6 +50,7 @@ const Log = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="mx-auto flex min-h-screen w-full items-center justify-center bg-gray-900 text-white">
+
             <section className="flex w-[30rem] flex-col space-y-10">
                 <div className="text-center text-4xl font-medium">Log In</div>
                 <div className="w-full transform border-b-2 bg-transparent text-lg duration-300 focus-within:border-indigo-500">
@@ -100,11 +107,15 @@ const Log = () => {
                     No account?
                     <a href="#" className="font-medium text-indigo-500 underline-offset-4 hover:underline">Create One</a>
                 </p>
-                {errorvalue && (
+                {/* {errorvalue && (
                     <div className=" text-[#f11111] text-center text-xl">{errormessage}</div>
-                )}
+                )} */}
             </section>
+            {toastervalue && toastervalue ? <Toaster type={ToasterType.Success} /> : <Toaster type={ToasterType.Error} />
+
+            }
         </form>
+
     );
 }
 

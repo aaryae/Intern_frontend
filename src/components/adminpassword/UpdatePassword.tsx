@@ -4,8 +4,9 @@ import { updatepasswordtype } from "types/global.types";
 import Button from "utils/themes/components/Button";
 import Heading from "utils/themes/components/Heading";
 import InputField from "utils/themes/components/InputField";
+
 import * as yup from "yup";
-import axios from "../../service/Instance";
+import axiosInstance from "../../service/Instance";
 
 
 
@@ -31,18 +32,15 @@ const UpdatePassword = () => {
 
     const onSubmit: SubmitHandler<updatepasswordtype> = async (data) => {
         try {
-            const response = await axios({
+            await axiosInstance({
                 method: 'patch',
                 url: '/auth/update-password',
                 data: {
                     oldPassword: data.oldPassword,
                     newPassword: data.newPassword
-                },
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
                 }
             });
-            console.log(response)
+
         } catch (error) {
             console.error(error);
         }

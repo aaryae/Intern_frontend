@@ -6,7 +6,7 @@ interface SelectInputProps {
         value: string;
         label: string;
     }[]
-    placeholder?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     register: UseFormRegister<any>
 }
 const SelectInput = ({ name, options, register }: SelectInputProps) => {
@@ -29,3 +29,4 @@ const SelectInput = ({ name, options, register }: SelectInputProps) => {
 };
 
 export default SelectInput;
+

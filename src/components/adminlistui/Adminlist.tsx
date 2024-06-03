@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiresponse } from "types/global.types";
 import Heading from "utils/themes/components/Heading";
-import axios from "../../service/Instance";
+import { default as axios, default as axiosInstance } from "../../service/Instance";
 
 const Adminlist = () => {
     const [fetchdata, setfetchdata] = useState<apiresponse[]>([]);
@@ -41,12 +41,10 @@ const Adminlist = () => {
     const handledelete = (id: string) => {
         const deletedata = async () => {
             try {
-                await axios({
+                await axiosInstance({
                     method: 'delete',
                     url: `/admin/${id}`,
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("accesstoken")}`,
-                    },
+
                     data: { id }
                 });
 

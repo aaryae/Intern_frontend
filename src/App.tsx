@@ -6,8 +6,8 @@ import Adminlist from '@components/adminlistui/Adminlist';
 import UpdatePassword from '@components/adminpassword/UpdatePassword';
 import Home from '@pages/Home';
 import Login from '@pages/Login';
-import AdminTemplate from '@templates/AdminTemplate';
 import Template from '@templates/Template';
+import ProtectedRoute from 'ProtectedRoute';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 
@@ -20,10 +20,9 @@ const router = createBrowserRouter([
       { path: '/login', element: <Login /> }
     ]
   },
-  // { path: '/admin', element: <AdminDashboardui /> }
   {
     path: '/admin',
-    element: <AdminTemplate />,
+    element: <ProtectedRoute />,
     children: [
       { index: true, element: <Adminhome /> },
       { path: 'adminlist', element: <Adminlist /> },
@@ -31,8 +30,6 @@ const router = createBrowserRouter([
       { path: 'dashboard', element: <Admindashboard /> },
       { path: 'createadmin', element: <Createadmin /> },
       { path: 'changepassword', element: <UpdatePassword /> },
-
-
     ]
   }
 ]);
@@ -41,10 +38,13 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-
       <RouterProvider router={router} />
+
     </>
   );
 }
 
 export default App;
+
+
+

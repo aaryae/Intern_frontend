@@ -7,7 +7,7 @@ import Heading from "utils/themes/components/Heading";
 import InputField from "utils/themes/components/InputField";
 import Label from "utils/themes/components/Label";
 import SelectInput from "utils/themes/components/SelectInput";
-import axios from "../../service/Instance";
+import axiosInstance from "../../service/Instance";
 
 interface getdatatype {
     listdata: apiresponse;
@@ -23,12 +23,10 @@ const Editadmin = ({ listdata }: getdatatype) => {
     const handleupdate: SubmitHandler<editUserInterface> = async (data) => {
         try {
             console.log(data)
-            await axios({
+            await axiosInstance({
                 method: 'patch',
                 url: '/admin',
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accesstoken")}`
-                },
+
                 data: {
                     id: id,
                     role: data.role,

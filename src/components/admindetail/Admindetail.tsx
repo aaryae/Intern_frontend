@@ -5,7 +5,7 @@ import { apiresponse } from "types/global.types"
 import Heading from "utils/themes/components/Heading"
 import Label from "utils/themes/components/Label"
 import Paragraph from "utils/themes/components/Paragraph"
-import axios from "../../service/Instance"
+import axiosInstance from "../../service/Instance"
 
 const Admindetail = () => {
     const [listdata, setlistdata] = useState<apiresponse>()
@@ -17,12 +17,9 @@ const Admindetail = () => {
     useEffect(() => {
         const fetchdata = async () => {
             try {
-                const response = await axios({
+                const response = await axiosInstance({
                     method: 'get',
                     url: `/admin/${id}`,
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
-                    }
                 })
                 setlistdata(response.data.data);
             } catch (error) {

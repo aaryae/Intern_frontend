@@ -75,3 +75,8 @@ export interface editUserInterface {
     }
 }
 
+//toaster
+export enum ToasterType {
+    Success = 'success',
+    Error = 'error'
+}

@@ -32,11 +32,37 @@ export interface formdata {
 }
 
 export interface CreateUserInterface {
+    role?: string
+    email: string
+    password: string
+    allowedFeature?: []
+    details: {
+        firstName: {
+            en: string
+            ne?: string
+        },
+        lastName: {
+            en: string
+            ne?: string
+
+        },
+        phoneNumber: string;
+    }
+
+
+
+
+}
+
+export interface editUserInterface {
+    id: string
     email: string
     password: string
     role: string
     allowedFeature: string[]
+
     details: {
+
         firstName: {
             en: string
             ne: string
@@ -48,3 +74,4 @@ export interface CreateUserInterface {
         phoneNumber: string;
     }
 }
+

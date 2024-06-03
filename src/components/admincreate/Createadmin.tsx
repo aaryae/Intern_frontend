@@ -13,11 +13,11 @@ const createadminschema = yup.object().shape({
     details: yup.object().shape({
         firstName: yup.object().shape({
             en: yup.string().required('First Name is required !'),
-            ne: yup.string().notRequired(),
+            ne: yup.string().optional(),
         }),
         lastName: yup.object().shape({
             en: yup.string().required('Last Name is required !'),
-            ne: yup.string().notRequired(),
+            ne: yup.string().optional(),
         }),
         phoneNumber: yup.string().required('phonenumber required !')
     }),
@@ -25,6 +25,7 @@ const createadminschema = yup.object().shape({
     password: yup.string().required('Password is required')
         .min(8, 'password must be 8 characters')
         .max(16, 'password cannot exceed 16 characters')
+
 })
 
 const Createadmin = () => {
@@ -63,6 +64,7 @@ const Createadmin = () => {
                 }
 
             });
+            
         } catch (error) {
             console.log(error);
         }

@@ -65,7 +65,7 @@ const Adminlist = () => {
 
 
     return (
-        <div className="w-full h-72 flex  flex-col items-center justify-center">
+        <div className="w-full h-72 flex  flex-col items-center justify-center mt-9">
             <Heading value="Admin List" />
             <table className="table-auto p-2 m-4">
                 <thead className="border-2 border-black p-2">

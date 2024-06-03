@@ -89,7 +89,7 @@ const Admindetail = () => {
                 <button onClick={handlepopup} className="bg-green-900 p-3 text-[#e0e0e0] hover:text-white hover:underline px-6">Edit</button>
                 {handletoggle && (
                     <div className="bg-white absolute  top-52 text-center w-1/2  shadow-2xl rounded">
-                        <button onClick={handlepopup} className="text-red-800 p-3  float-right text-bold hover:underline "  >close</button>
+                        <button onClick={handlepopup} className="text-red-800 p-3  float-right text-bold hover:underline ">close</button>
                         <Editadmin listdata={listdata} />
                     </div>
                 )}

@@ -75,7 +75,7 @@ const Createadmin = () => {
 
 
     return (
-        <div className="w-full flex items-center flex-col gap-10">
+        <div className="w-full flex items-center flex-col gap-10 ">
             <Heading value="Create Admin" />
 
             <form className="w-full max-w-lg bg-[#0000001c] p-4 ">
@@ -84,7 +84,7 @@ const Createadmin = () => {
 
                         <Label value="firstname" />
                         <Label value="In english" />
-                        <InputField register={register} type="text" placeholder="First Name" name="details.firstName.en" />
+                        <InputField readonly={false} register={register} type="text" placeholder="First Name" name="details.firstName.en" />
                         {errors.details?.firstName?.en &&
                             <span className="text-red-500 text-sm mt-1">{errors.details?.firstName?.en.message}</span>
                         }
@@ -93,7 +93,7 @@ const Createadmin = () => {
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <br />
                         <Label value="In nepali" />
-                        <InputField register={register} type="text" placeholder="पहिलो नाम " name="details.firstName.ne" />
+                        <InputField readonly={false} register={register} type="text" placeholder="पहिलो नाम " name="details.firstName.ne" />
 
 
                     </div>
@@ -101,7 +101,7 @@ const Createadmin = () => {
 
                         <Label value="lastname" />
                         <Label value="In english" />
-                        <InputField register={register} type="text" placeholder="Last Name" name="details.lastName.en" />
+                        <InputField readonly={false} register={register} type="text" placeholder="Last Name" name="details.lastName.en" />
                         {errors.details?.lastName?.en &&
                             <span className="text-red-500 text-sm mt-1">{errors.details?.lastName?.en.message}</span>
                         }
@@ -110,7 +110,7 @@ const Createadmin = () => {
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <br />
                         <Label value="In nepali" />
-                        <InputField register={register} type="text" placeholder="थर " name="details.lastName.ne" />
+                        <InputField readonly={false} register={register} type="text" placeholder="थर " name="details.lastName.ne" />
 
                     </div>
 
@@ -118,7 +118,7 @@ const Createadmin = () => {
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full px-3">
                         <Label value="email" />
-                        <InputField register={register} type="email" placeholder="Enter Your Email" name="email" />
+                        <InputField readonly={false} register={register} type="email" placeholder="Enter Your Email" name="email" />
                         {errors.email &&
                             <span className="text-red-500 text-sm mt-1">{errors.email?.message}</span>
                         }
@@ -128,7 +128,7 @@ const Createadmin = () => {
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full px-3">
                         <Label value="password" />
-                        <InputField register={register} type="password" placeholder="......." name="password" />
+                        <InputField readonly={false} register={register} type="password" placeholder="......." name="password" />
                         {errors.password &&
                             <span className="text-red-500 text-sm mt-1">{errors.password?.message}</span>
                         }
@@ -137,7 +137,7 @@ const Createadmin = () => {
                 <div className="flex flex-wrap -mx-3 mb-2">
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <Label value="phonenumber" />
-                        <InputField register={register} type="number" placeholder="" name="details.phoneNumber" />
+                        <InputField readonly={false} register={register} type="number" placeholder="" name="details.phoneNumber" />
                         {errors.details?.phoneNumber &&
                             <span className="text-red-500 text-sm mt-1">{errors.details?.phoneNumber?.message}</span>
                         }

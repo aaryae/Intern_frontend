@@ -1,17 +1,20 @@
 import Editadmin from "@components/editadmin/Editadmin"
 import { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
 import { apiresponse } from "types/global.types"
 import Heading from "utils/themes/components/Heading"
 import Label from "utils/themes/components/Label"
 import Paragraph from "utils/themes/components/Paragraph"
 import axiosInstance from "../../service/Instance"
 
-const Admindetail = () => {
+
+interface idtype {
+    id?: string;
+}
+
+const Admindetail = ({ id }: idtype) => {
     const [listdata, setlistdata] = useState<apiresponse>()
     const [handletoggle, sethandletoggle] = useState<boolean>(false);
-    const location = useLocation();
-    const { id } = location.state;
+
 
 
     useEffect(() => {
@@ -85,12 +88,21 @@ const Admindetail = () => {
                 </div>
                 <button onClick={handlepopup} className="bg-green-900 p-3 text-[#e0e0e0] hover:text-white hover:underline px-6">Edit</button>
                 {handletoggle && (
-                    <div className="bg-white absolute  top-52 text-center w-1/2  shadow-2xl rounded">
-                        <button onClick={handlepopup} className="text-red-800 p-3  float-right text-bold hover:underline ">close</button>
-                        <Editadmin listdata={listdata} />
+                    // <div className="bg-white absolute  top-52 text-center w-1/2  shadow-2xl rounded">
+                    //     <button onClick={handlepopup} className="text-red-800 p-3  float-right text-bold hover:underline ">close</button>
+                    //     <Editadmin listdata={listdata} id={id} />
+                    // </div>
+                    <div className="fixed flex items-center justify-center bg-black inset-0 bg-opacity-50">
+                        <div className="bg-white p-6 rouded-lg shadow-lg w-full max-w-md">
+                            <div className="flex justify-end">
+                                <span className="text-red-700 cursor-pointer hover:underline " onClick={handlepopup}
+                                >close</span>
+                            </div>
+                            <Editadmin listdata={listdata} id={id} />
+                        </div>
                     </div>
                 )}
-            </div>
+            </div >
 
 
 

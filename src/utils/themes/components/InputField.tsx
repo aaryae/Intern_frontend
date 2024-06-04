@@ -2,7 +2,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { InputProps } from "types/input.types";
 
-const InputField = ({ type = 'text', register, placeholder, name }: InputProps) => {
+const InputField = ({ type = 'text', register, placeholder, name, readonly }: InputProps) => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const handlePasswordShow = () => {
@@ -15,6 +15,7 @@ const InputField = ({ type = 'text', register, placeholder, name }: InputProps) 
         <div className="relative">
             <input
                 type={inputType}
+                readOnly={readonly}
                 id={name}
                 placeholder={placeholder}
                 {...register(name)}

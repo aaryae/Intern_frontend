@@ -53,12 +53,12 @@ const UpdatePassword = () => {
             <Heading value="Update password" />
 
             <div className="w-full h-fit max-w-lg bg-[#0000001c] p-4 ">
-                <InputField type="password" placeholder="old password " name="oldPassword" register={register} />
+                <InputField readonly={false} type="password" placeholder="old password " name="oldPassword" register={register} />
                 {errors.oldPassword &&
                     <span className="text-red-500 text-sm mt-1">{errors.oldPassword?.message}</span>
                 }
                 <br />
-                <InputField type="password" placeholder="new password " name="newPassword" register={register} />
+                <InputField readonly={false} type="password" placeholder="new password " name="newPassword" register={register} />
                 {errors.newPassword &&
                     <span className="text-red-500 text-sm mt-1">{errors.newPassword?.message}</span>
                 }

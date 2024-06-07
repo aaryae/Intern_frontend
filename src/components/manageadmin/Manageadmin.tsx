@@ -1,5 +1,5 @@
 import Createadmin from "@components/admincreate/Createadmin";
-import Adminlist from "@components/adminlistui/Adminlist";
+import Adminlist from "@components/adminlist/Adminlist";
 import { useState } from "react";
 import Button from "utils/themes/components/Button";
 import Heading from "utils/themes/components/Heading";
@@ -9,26 +9,21 @@ const Manageadmin = () => {
 
     const handleaddadmin = () => {
         setaddadmin(prevaddadmin => !prevaddadmin);
-    }
+    };
+
+    const handleAdminCreated = () => {
+        setaddadmin(false);
+    };
 
     return (
-        <div className="w-full">
-            <div className=" flex justify-between items-start  pl-32 ">
-
-                <Heading value="manage admin" />
-
-
-
-                <Button onClick={handleaddadmin} input={addadmin ? "add admin" : "create admin"} />
-
-
+        <>
+            <div className="flex justify-between items-start pl-32">
+                <Heading value="Manage Admin" />
+                <Button onClick={handleaddadmin} input={addadmin ? "Add Admin" : "Create Admin"} />
             </div>
-            {addadmin && addadmin ? <Createadmin /> : <Adminlist />}
+            {addadmin ? <Createadmin onAdminCreated={handleAdminCreated} /> : <Adminlist />}
+        </>
+    );
+};
 
-        </div>
-
-
-    )
-}
-
-export default Manageadmin
+export default Manageadmin;

@@ -1,10 +1,10 @@
+import { toast } from "@components/toast/ToastManager";
 import encryptDecrypt from "functions/encryptDecrypt";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import Toaster from "toaster/Toaster";
-import { ToasterType, formdata } from "types/global.types";
+import { formdata } from "types/global.types";
 import axios from "../../service/Instance";
 
 
@@ -13,10 +13,9 @@ import axios from "../../service/Instance";
 
 const Log = () => {
     const [showpassword, setshowpassword] = useState<boolean>(false);
-    const [toastervalue, settoastervalue] = useState<boolean | null>(null);
-    const form = useForm<formdata>();
+
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = form;
+    const { register, handleSubmit, formState: { errors } } = useForm<formdata>();
     const { encrypt } = encryptDecrypt;
 
 
@@ -32,20 +31,30 @@ const Log = () => {
                 }
             });
             const encrypted = encrypt(response.data.data.tokens.accessToken)
-            localStorage.setItem("accesstoken", encrypted as string);
-            settoastervalue(true)
 
-            navigate('/admin');
+            if ((response.data.data.admin.role) == 'USER') {
+                navigate("/user")
+            } else {
+
+                navigate('/admin');
+            }
+
+            localStorage.setItem("accesstoken", encrypted as string);
+            toast.show({ title: "Success", content: "Login successfully", duration: 2000, type: 'success' });
         } catch (error) {
-            settoastervalue(true)
-            // seterrorvalue(true);
+            toast.show({ title: "Error", content: "Login unsuccessfully", duration: 2000, type: 'error' });
+
+
+
+
+
+
             console.error(error);
         }
     };
 
     const handlepasswordshow = () => {
         setshowpassword(prevshowpassword => !prevshowpassword);
-
     }
 
     return (
@@ -111,9 +120,7 @@ const Log = () => {
                     <div className=" text-[#f11111] text-center text-xl">{errormessage}</div>
                 )} */}
             </section>
-            {toastervalue && toastervalue ? <Toaster type={ToasterType.Success} /> : <Toaster type={ToasterType.Error} />
 
-            }
         </form>
 
     );

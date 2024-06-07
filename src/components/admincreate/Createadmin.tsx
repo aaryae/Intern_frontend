@@ -1,6 +1,6 @@
+import { toast } from "@components/toast/ToastManager"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom"
 import { CreateUserInterface } from "types/global.types"
 import Button from "utils/themes/components/Button"
 import Heading from "utils/themes/components/Heading"
@@ -31,8 +31,11 @@ const createadminschema = yup.object().shape({
 
 })
 
-const Createadmin = () => {
-    const navigate = useNavigate();
+interface navigatetolisttype {
+    onAdminCreated: () => void
+}
+
+const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
     const { register, handleSubmit, formState: { errors } } = useForm<CreateUserInterface>(
         {
             resolver: yupResolver(createadminschema)
@@ -64,11 +67,12 @@ const Createadmin = () => {
                         phoneNumber: data.details?.phoneNumber
                     }
                 }
-
             });
-            navigate('/admin/adminlist');
+            toast.show({ title: "Success", content: "Updated successfully", duration: 2000, type: 'success' });
+            onAdminCreated();
 
         } catch (error) {
+            toast.show({ title: "Error", content: "unsuccessfully", duration: 2000, type: 'error' });
             console.log(error);
         }
     }

@@ -1,3 +1,5 @@
+import Footer from '@components/footer/Footer';
+import Navbar from '@components/navvbar/Navbar';
 import {
     ArcElement,
     BarElement,
@@ -25,7 +27,7 @@ ChartJS.register(
     Legend
 );
 
-const ChartComponent: React.FC = () => {
+const Userpage: React.FC = () => {
     const lineData = {
         labels: ['January', 'February', 'March', 'April', 'May', 'June'],
         datasets: [
@@ -75,18 +77,29 @@ const ChartComponent: React.FC = () => {
     };
 
     return (
-        <div>
-            <div style={{ width: '600px', height: '600px', margin: '20px auto' }}>
-                <Line data={lineData} options={chartOptions} />
+        <>
+            <Navbar />
+            <div>
+
+
+                <div>
+
+                    <div className='bg-black   flex h-[100vh] max-w-8xl mx-auto'>
+                        <div style={{ width: '600px', height: '600px', margin: ' auto', padding: '40px' }}>
+                            <Line data={lineData} options={chartOptions} />
+                        </div>
+                        <div style={{ width: '600px', height: '600px', margin: ' auto', padding: '40px' }}>
+                            <Bar data={barData} options={chartOptions} />
+                        </div>
+                        <div style={{ width: '600px', height: '600px', margin: 'auto', padding: '40px' }}>
+                            <Pie data={pieData} options={chartOptions} />
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div style={{ width: '600px', height: '600px', margin: '20px auto' }}>
-                <Bar data={barData} options={chartOptions} />
-            </div>
-            <div style={{ width: '600px', height: '600px', margin: '20px auto' }}>
-                <Pie data={pieData} options={chartOptions} />
-            </div>
-        </div>
+            <Footer />
+        </>
     );
 };
 
-export default ChartComponent;
+export default Userpage;

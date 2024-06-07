@@ -21,6 +21,26 @@ export interface apiresponse {
 }
 
 
+export interface editUserInterface {
+    id: string
+    email: string
+    password: string
+    role: string
+    allowedFeature: string[]
+
+    details: {
+
+        firstName: {
+            en: string
+            ne: string
+        },
+        lastName: {
+            en: string
+            ne: string
+        },
+        phoneNumber: string;
+    }
+}
 export interface updatepasswordtype {
     oldPassword: string,
     newPassword: string
@@ -54,29 +74,21 @@ export interface CreateUserInterface {
 
 }
 
-export interface editUserInterface {
-    id: string
-    email: string
-    password: string
-    role: string
-    allowedFeature: string[]
+//paginationtype
 
-    details: {
-
-        firstName: {
-            en: string
-            ne: string
-        },
-        lastName: {
-            en: string
-            ne: string
-        },
-        phoneNumber: string;
-    }
+export interface paginationdatatype {
+    currentPage: number
+    perpage: number
+    total?: number
+    totalPages?: number
 }
+
 
 //toaster
 export enum ToasterType {
     Success = 'success',
     Error = 'error'
 }
+
+
+

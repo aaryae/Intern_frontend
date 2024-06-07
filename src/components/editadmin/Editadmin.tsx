@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { apiresponse, editUserInterface } from "types/global.types";
 import Button from "utils/themes/components/Button";
 import Heading from "utils/themes/components/Heading";
@@ -10,14 +9,18 @@ import SelectInput from "utils/themes/components/SelectInput";
 import axiosInstance from "../../service/Instance";
 
 interface getdatatype {
-    listdata: apiresponse;
-    id?: string;
+    listdata: apiresponse | undefined;
+    admindata: apiresponse | editUserInterface | null | undefined;
+    admindatafunction: (updatedUser: apiresponse) => void
+    dialog: () => void
 }
 
-const Editadmin = ({ listdata, id }: getdatatype) => {
+const Editadmin = ({ listdata, admindata, admindatafunction, dialog }: getdatatype) => {
     const [state, setstate] = useState<boolean>(true);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [handletoggle, sethandletoggle] = useState<boolean>(false);
     const { register, handleSubmit } = useForm<editUserInterface>({ defaultValues: listdata });
-    const navigate = useNavigate();
+
 
 
     const handleupdate: SubmitHandler<editUserInterface> = async (data) => {
@@ -26,7 +29,7 @@ const Editadmin = ({ listdata, id }: getdatatype) => {
                 method: 'patch',
                 url: '/admin',
                 data: {
-                    id: id,
+                    id: admindata?.id,
                     role: data.role,
                     allowedFeature: data.allowedFeature,
                     firstName: {
@@ -40,13 +43,37 @@ const Editadmin = ({ listdata, id }: getdatatype) => {
                     phoneNumber: data.details?.phoneNumber,
                 }
             });
-            navigate('/admin/manageadmin')
+
+            try {
+                const updatedUser = deepMerge({ ...admindata }, data)
+                admindatafunction(updatedUser)
+
+            } catch (error) {
+                console.log(error)
+            }
             setstate(prevstate => !prevstate);
         } catch (error) {
             console.log(error);
         }
+    }; 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const deepMerge = (target: any, source: any): any => {
+        for (const key in source) {
+            if (source[key] && typeof source[key] === 'object') {
+                if (!target[key]) {
+                    target[key] = {};
+                }
+                deepMerge(target[key], source[key]);
+            } else {
+                target[key] = source[key];
+            }
+        }
+        return target;
     };
 
+    const handlepopup = () => {
+        sethandletoggle(prevhandletoggle => !prevhandletoggle)
+    }
     return (
         <>
             <Heading value="Update form" />
@@ -102,8 +129,18 @@ const Editadmin = ({ listdata, id }: getdatatype) => {
                         </div>
                     </div>
                 </div>
+                <div onClick={handlepopup}>
+
+                    <Button
+                        input="Update"
+                        onClick={() => {
+                            handleSubmit(handleupdate)();
+                            dialog();
+                        }}
+                    />
+
+                </div>
             </form>
-            <Button input="Update" onClick={handleSubmit(handleupdate)} />
         </>
     );
 };

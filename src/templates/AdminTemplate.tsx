@@ -1,18 +1,21 @@
-import Adminnavbar from "@components/adminnavbar/Adminnavbar"
-import { Outlet } from "react-router-dom"
+import Adminnavbar from "@components/adminnavbar/Adminnavbar";
+import Adminsidebar from "@components/adminsidebar/Adminsidebar";
+import { Outlet } from "react-router-dom";
 
 const AdminTemplate = () => {
-
     return (
         <>
-            <div className="flex h-fit w-full justify-between">
-                <Adminnavbar />
+            <Adminsidebar />
+            <Adminnavbar />
+            <div
+                className="pt-12 pl-[300px] "
 
+            >
                 <Outlet />
+
             </div>
-
         </>
-    )
-}
+    );
+};
 
-export default AdminTemplate
+export default AdminTemplate;

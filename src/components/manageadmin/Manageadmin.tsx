@@ -16,13 +16,15 @@ const Manageadmin = () => {
     };
 
     return (
-        <>
-            <div className="flex justify-between items-start pl-32">
+        <div className="w-full p-4 ">
+            <div className="flex justify-between ">
                 <Heading value="Manage Admin" />
-                <Button onClick={handleaddadmin} input={addadmin ? "Add Admin" : "Create Admin"} />
+                <div>
+                    <Button onClick={handleaddadmin} input={addadmin ? "Add Admin" : "Create Admin"} />
+                </div>
             </div>
             {addadmin ? <Createadmin onAdminCreated={handleAdminCreated} /> : <Adminlist />}
-        </>
+        </div>
     );
 };
 

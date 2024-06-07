@@ -75,15 +75,37 @@ const ChartComponent: React.FC = () => {
     };
 
     return (
-        <div>
-            <div style={{ width: '600px', height: '600px', margin: '20px auto' }}>
-                <Line data={lineData} options={chartOptions} />
+        <div className='bg-[#d3d3d3a1] h-full p-4'>
+            <div className='flex flex-wrap justify-center'>
+                <div className='w-full sm:w-1/2 lg:w-1/3 '>
+                    <div className=' p-4 rounded shadow-md'>
+                        <div className='relative' style={{ paddingBottom: '100%' }}>
+                            <div className='absolute inset-0'>
+                                <Line data={lineData} options={chartOptions} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='w-full sm:w-1/2 lg:w-1/3 '>
+                    <div className=' p-4 rounded shadow-md'>
+                        <div className='relative' style={{ paddingBottom: '100%' }}>
+                            <div className='absolute inset-0'>
+                                <Bar data={barData} options={chartOptions} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div style={{ width: '600px', height: '600px', margin: '20px auto' }}>
-                <Bar data={barData} options={chartOptions} />
-            </div>
-            <div style={{ width: '600px', height: '600px', margin: '20px auto' }}>
-                <Pie data={pieData} options={chartOptions} />
+            <div className='flex justify-center '>
+                <div className='w-full lg:w-1/3'>
+                    <div className=' p-4 rounded shadow-md'>
+                        <div className='relative' style={{ paddingBottom: '100%' }}>
+                            <div className='absolute inset-0'>
+                                <Pie data={pieData} options={chartOptions} />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

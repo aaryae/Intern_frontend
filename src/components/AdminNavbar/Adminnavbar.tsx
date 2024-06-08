@@ -10,8 +10,6 @@ const Adminnavbar = () => {
 
     return (
         <>
-
-
             <div className="w-full h-[50px] bg-[#1c212c] text-white fixed z-50">
                 <div className="logo pt-2">
                     <Link to="/admin" className="px-7 py-2 text-2xl tracking-widest">

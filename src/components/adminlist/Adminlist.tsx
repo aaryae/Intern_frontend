@@ -1,4 +1,6 @@
 import Admindetail from "@components/admindetail/Admindetail";
+import Paginationlist from "@components/paginationlist/Paginationlist";
+import Searchadmin from "@components/searchadmin/Searchadmin";
 import { ChevronDown, ChevronUp, MoveLeft, MoveRight } from 'lucide-react';
 import { useEffect, useState } from "react";
 import { apiresponse, editUserInterface, paginationdatatype } from "types/global.types";
@@ -12,14 +14,20 @@ const Adminlist = () => {
     const [popup, setpopup] = useState<boolean>(false);
     const [sortList, setSortList] = useState<boolean>(true);
     const [roleDetails, setRoleDetails] = useState<{ [key: string]: number }>({});
+    const [perpage, setperpage] = useState<number>(5)
     const [showRoleDetails, setShowRoleDetails] = useState<boolean>(false);
+    const [onpagechange, setonpagechange] = useState<number>(1)
     const [paginationdata, setpaginationdata] = useState<paginationdatatype>({
         currentPage: 1,
-        perpage: 10,
+        perpage,
         total: undefined,
         totalPages: undefined,
     });
 
+    //searchstate
+    const [searchval, setsearchval] = useState<string>('')
+
+    //initial fetch of the adminlists
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -28,11 +36,15 @@ const Adminlist = () => {
                     url: '/admin',
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
+                    },
+                    params: {
+                        perpage: 5
                     }
                 });
 
                 setfetchdata(response.data.data?.data);
                 setpaginationdata(response.data.data?.pagination);
+
 
             } catch (error) {
                 console.error(error);
@@ -41,7 +53,7 @@ const Adminlist = () => {
 
         fetchData();
     }, []);
-
+    //delete of the user
     const handledelete = (id?: string) => {
         const deletedata = async () => {
             try {
@@ -65,6 +77,7 @@ const Adminlist = () => {
         setpopup(prevpopup => !prevpopup);
     };
 
+    //sorting basis of firstname
     const handleSortClick = () => {
         setSortList(prevStatus => {
             const newStatus = !prevStatus;
@@ -81,7 +94,7 @@ const Adminlist = () => {
             return newStatus;
         });
     };
-
+    //roledetail
     const showroledetail = () => {
         const roleCounts: { [key: string]: number } = {};
 
@@ -97,7 +110,7 @@ const Adminlist = () => {
         setRoleDetails(roleCounts);
         setShowRoleDetails(true);
     };
-
+    //Userupdate
     const handleUserUpdate = (updatedUser: apiresponse) => {
         setfetchdata((prevfetchdata) =>
             prevfetchdata.map((user) => (user.id === updatedUser.id ? updatedUser : user))
@@ -109,7 +122,9 @@ const Adminlist = () => {
         setpopup(prevpopup => !prevpopup);
     };
 
-    const handlepagination = async (page: number, perpage: number) => {
+
+    //paginationfetch
+    const handlepagination = async (page: number, perpage?: number) => {
         try {
             const response = await axios({
                 method: 'get',
@@ -129,9 +144,58 @@ const Adminlist = () => {
         }
     };
 
+
+    const updatepaginationlist = (paginationnumber: number) => {
+        setonpagechange(paginationnumber)
+
+    }
+
+    useEffect(() => {
+        handlepagination(onpagechange, perpage)
+    }, [onpagechange, perpage])
+
+
+
+    //search username
+
+    const searchadminname = async (searchval: string) => {
+        try {
+            const response = await axios({
+                method: 'get',
+                url: '/admin',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
+                },
+                params: {
+                    search: searchval
+                }
+            });
+            setfetchdata(response.data.data?.data);
+            setpaginationdata(response.data.data?.pagination);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const handlesearchfunction = (searchdata: string) => {
+        console.log(searchval, "searchvalue")
+        setsearchval(searchdata);
+
+    }
+    useEffect(() => {
+        searchadminname(searchval)
+    }, [searchval])
+
+
+
     return (
         <div className=" flex flex-col items-center justify-center">
             <Heading value="Admin List" />
+            {/* searchbar */}
+
+            <Searchadmin handlesearchfunction={handlesearchfunction} />
+
+            {/* admin table */}
             <div className="w-full overflow-x-auto ">
                 <table className="w-full table-auto text-center text-sm">
                     <thead className="border-2 border-black">
@@ -181,6 +245,8 @@ const Adminlist = () => {
                 {/* Pagination */}
                 <div className="flex items-center justify-between bg-transparent px-4 py-3 sm:px-6">
                     <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+
+                        {/* perpage search */}
                         <div>
                             <p className="text-sm text-gray-700">
                                 Per page
@@ -188,7 +254,11 @@ const Adminlist = () => {
                                     name="perPage"
                                     id="perPage"
                                     className="ml-2"
-                                    onChange={(e) => handlepagination(1, Number(e.target.value))}
+                                    onChange={(e) => {
+                                        const newPerPage = Number(e.target.value);
+                                        setperpage(newPerPage);
+                                        handlepagination(1, newPerPage);
+                                    }}
                                 >
                                     {[5, 10, 15, 20].map((value, index) => (
                                         <option key={index} value={value}>{value}</option>
@@ -196,72 +266,57 @@ const Adminlist = () => {
                                 </select>
                             </p>
                         </div>
-                        <div>
-                            <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                                <a
-                                    href="#"
-                                    className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                                    onClick={() => handlepagination(Math.max(1, paginationdata.currentPage - 1), paginationdata.perpage)}
-                                >
-                                    <span className="sr-only">Previous</span>
-                                    <MoveLeft />
-                                </a>
-                                {Array.from({ length: paginationdata.totalPages ?? 0 }).map((_, index) => (
-                                    <a
-                                        key={index}
-                                        href="#"
-                                        className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${paginationdata.currentPage === index + 1 ? 'bg-[#1c212c] text-white' : 'text-gray-900'} ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0`}
-                                        onClick={() => handlepagination(index + 1, paginationdata.perpage)}
-                                    >
-                                        {index + 1}
-                                    </a>
-                                ))}
-                                <a
-                                    href="#"
-                                    className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-                                    onClick={() => handlepagination(Math.min(paginationdata.totalPages ?? 1, paginationdata.currentPage + 1), paginationdata.perpage)}
-                                >
-                                    <span className="sr-only">Next</span>
-                                    <MoveRight />
-                                </a>
-                            </nav>
+
+                        {/* paginationslider */}
+
+                        <div className="flex gap-2">
+                            <MoveLeft />
+                            <Paginationlist totalPages={paginationdata.totalPages} updatepaginationlist={updatepaginationlist} />
+                            <MoveRight />
                         </div>
                     </div>
                 </div>
+
             </div>
             {/* Popup for admin details */}
-            {popup && (
-                <div className="fixed flex items-center justify-center bg-black inset-0 bg-opacity-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                        <div className="flex justify-end">
-                            <span className="text-red-700 cursor-pointer hover:underline" onClick={() => handleitemdata(null)}>close</span>
+            {
+                popup && (
+                    <div className="fixed flex items-center justify-center bg-black inset-0 bg-opacity-50">
+                        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+                            <div className="flex justify-end">
+                                <span className="text-red-700 cursor-pointer hover:underline" onClick={() => handleitemdata(null)}>close</span>
+                            </div>
+                            <Admindetail admindata={admindata} admindatafunction={handleUserUpdate} dialog={handlepopup} />
                         </div>
-                        <Admindetail admindata={admindata} admindatafunction={handleUserUpdate} dialog={handlepopup} />
                     </div>
-                </div>
-            )}
+                )
+            }
             {/* Role details */}
             <div className="absolute top-16 right-44">
                 <Button input="role details" onClick={showroledetail} />
             </div>
-            {showRoleDetails && (
-                <div className="fixed flex items-center justify-center bg-black inset-0 bg-opacity-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                        <div className="flex justify-end">
-                            <span className="text-red-700 cursor-pointer hover:underline" onClick={() => setShowRoleDetails(false)}>close</span>
+            {
+                showRoleDetails && (
+                    <div className="fixed flex items-center justify-center bg-black inset-0 bg-opacity-50">
+                        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+                            <div className="flex justify-end">
+                                <span className="text-red-700 cursor-pointer hover:underline" onClick={() => setShowRoleDetails(false)}>close</span>
+                            </div>
+                            <h2 className="text-xl font-bold mb-4">Role Details</h2>
+                            <ul>
+                                {Object.entries(roleDetails).map(([role, count]) => (
+                                    <li key={role} className="mb-2"><span className="font-bold">{role}</span>: {count}</li>
+                                ))}
+                            </ul>
                         </div>
-                        <h2 className="text-xl font-bold mb-4">Role Details</h2>
-                        <ul>
-                            {Object.entries(roleDetails).map(([role, count]) => (
-                                <li key={role} className="mb-2"><span className="font-bold">{role}</span>: {count}</li>
-                            ))}
-                        </ul>
                     </div>
-                </div>
-            )}
-            {/* <Button input="fetchdata" onClick={() => handlepagination(1, paginationdata.perpage)} /> */}
-        </div>
+                )
+            }
+        </div >
     );
 };
 
 export default Adminlist;
+
+
+

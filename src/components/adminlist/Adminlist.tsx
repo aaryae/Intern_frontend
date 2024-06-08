@@ -26,6 +26,8 @@ const Adminlist = () => {
 
     //searchstate
     const [searchval, setsearchval] = useState<string>('')
+    //if user not found then message state
+    const [errormessage, seterrormessage] = useState<string>('')
 
     //initial fetch of the adminlists
     useEffect(() => {
@@ -170,15 +172,22 @@ const Adminlist = () => {
                     search: searchval
                 }
             });
+            if (response.data.data?.data.length === 0) {
+                seterrormessage("UserName not found .")
+            } else {
+
+                seterrormessage('')
+            }
             setfetchdata(response.data.data?.data);
             setpaginationdata(response.data.data?.pagination);
+
         } catch (error) {
             console.log(error);
         }
     }
 
     const handlesearchfunction = (searchdata: string) => {
-        console.log(searchval, "searchvalue")
+
         setsearchval(searchdata);
 
     }
@@ -194,6 +203,7 @@ const Adminlist = () => {
             {/* searchbar */}
 
             <Searchadmin handlesearchfunction={handlesearchfunction} />
+            <p className="text-sm text-red-700"> {errormessage}</p>
 
             {/* admin table */}
             <div className="w-full overflow-x-auto ">

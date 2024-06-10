@@ -159,8 +159,7 @@ const Adminlist = () => {
 
 
     //search username
-
-    const searchadminname = async (searchval: string) => {
+    const searchadminname = async (searchval: string, perpage: number) => {
         try {
             const response = await axios({
                 method: 'get',
@@ -169,7 +168,8 @@ const Adminlist = () => {
                     Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
                 },
                 params: {
-                    search: searchval
+                    search: searchval,
+                    perpage: perpage
                 }
             });
             if (response.data.data?.data.length === 0) {
@@ -187,13 +187,11 @@ const Adminlist = () => {
     }
 
     const handlesearchfunction = (searchdata: string) => {
-
         setsearchval(searchdata);
-
     }
     useEffect(() => {
-        searchadminname(searchval)
-    }, [searchval])
+        searchadminname(searchval, perpage)
+    }, [searchval, perpage])
 
 
 

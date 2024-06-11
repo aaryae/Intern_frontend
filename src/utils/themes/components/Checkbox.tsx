@@ -19,6 +19,7 @@ const Checkbox = ({ options, register, name}: CheckboxProps) => {
           <label className='text-sm p-2'>
             <input
               type="checkbox"
+              id={name}
               value={option.value}
               {...register(name)}
             />

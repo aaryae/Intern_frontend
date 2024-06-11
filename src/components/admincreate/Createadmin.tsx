@@ -49,6 +49,7 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
 
     const onSubmit: SubmitHandler<CreateUserInterface> = async (data) => {
         try {
+            console.log(data)
             await axiosInstance({
                 method: 'post',
                 url: '/admin',
@@ -171,7 +172,7 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
                         <div className="">
                             <Label value="Manage Admin" />
                            
-                            <Checkbox register={register} name="allowedFeatures" 
+                            <Checkbox register={register} name="allowedFeature" 
                              options={[
                                 { value: 'MANAGE_ADMIN', label: 'Manage Admin' },
                                 { value: 'SETUP', label: 'Setup' },

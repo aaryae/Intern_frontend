@@ -10,12 +10,11 @@ import axiosInstance from "../../service/Instance"
 
 interface idtype {
     admindata: apiresponse | editUserInterface | null | undefined
-    admindatafunction: (updatedUser: apiresponse) => void;
+    handleUserUpdate: (updatedUser: apiresponse) => void;
     dialog: () => void
-
 }
 
-const Admindetail = ({ admindata, admindatafunction, dialog }: idtype) => {
+const Admindetail = ({ admindata, handleUserUpdate, dialog }: idtype) => {
     const [listdata, setlistdata] = useState<apiresponse>()
     const [handletoggle, sethandletoggle] = useState<boolean>(false);
 
@@ -29,22 +28,23 @@ const Admindetail = ({ admindata, admindatafunction, dialog }: idtype) => {
                     url: `/admin/${admindata?.id}`,
                 })
                 setlistdata(response.data.data);
+                console.log(response.data.data)
             } catch (error) {
                 console.log(error)
             }
         }
         fetchdata();
+        
     }, [])
 
     const handlepopup = () => {
         sethandletoggle(prevhandletoggle => !prevhandletoggle)
+        
     }
-
-
+   
 
     return (
         <>
-
             <div className="w-full h-[100%] flex flex-col  items-center gap-10 pt-10">
                 <Heading value="User Details" />
 
@@ -60,23 +60,19 @@ const Admindetail = ({ admindata, admindatafunction, dialog }: idtype) => {
 
                     </div>
                     <div className="flex">
-
                         <Label value="Role :" />
                         <Paragraph value={listdata?.role.toLowerCase().replace("_", " ")} />
 
                     </div>
                     <div className="flex">
-
                         <Label value="Firstname :" />
                         <Paragraph value={listdata?.details?.firstName.en} />
                     </div>
                     <div className="flex">
-
                         <Label value="Middlename :" />
                         <Paragraph value={listdata?.details?.middleName?.en ?? "n/a"} />
                     </div>
                     <div className="flex">
-
                         <Label value="Lastname :" />
                         <Paragraph value={listdata?.details?.lastName.en} />
 
@@ -97,7 +93,7 @@ const Admindetail = ({ admindata, admindatafunction, dialog }: idtype) => {
                                 <Closebutton onClick={handlepopup} />
 
                             </div>
-                            <Editadmin listdata={listdata} admindata={admindata} admindatafunction={admindatafunction} dialog={dialog} />
+                            <Editadmin listdata={listdata} admindata={admindata} handleUserUpdate={handleUserUpdate} dialog={dialog} />
                         </div>
                     </div>
                 )}

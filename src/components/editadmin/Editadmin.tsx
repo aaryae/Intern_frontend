@@ -12,11 +12,11 @@ import axiosInstance from "../../service/Instance";
 interface getdatatype {
     listdata: apiresponse | undefined;
     admindata: apiresponse | editUserInterface | null | undefined;
-    admindatafunction: (updatedUser: apiresponse) => void
+    handleUserUpdate :(updatedUser: apiresponse) => void
     dialog: () => void
 }
 
-const Editadmin = ({ listdata, admindata, admindatafunction, dialog }: getdatatype) => {
+const Editadmin = ({ listdata, admindata, handleUserUpdate, dialog }: getdatatype) => {
     const [state, setstate] = useState<boolean>(true);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [handletoggle, sethandletoggle] = useState<boolean>(false);
@@ -45,10 +45,10 @@ console.log(handletoggle)
                     phoneNumber: data.details?.phoneNumber,
                 }
             });
-                console.log(data)
+                dialog()
             try {
                 const updatedUser = deepMerge({ ...admindata }, data)
-                admindatafunction(updatedUser)
+                handleUserUpdate(updatedUser)
 
             } catch (error) {
                 console.log(error)
@@ -131,17 +131,22 @@ console.log(handletoggle)
                    ]}
                    />
                </div>
-                <div onClick={handlepopup}>
+               
+                    <div>
+                    <div onClick={handlepopup}>
 
                     <Button
-                        input="Update"
-                        onClick={() => {
-                            handleSubmit(handleupdate)();
-                            dialog();
-                        }}
-                    />
+                    input="Update"
+                    onClick={() => {
+                     handleSubmit(handleupdate)();
+                     dialog();
+                     }}
+                        />
 
-                </div>
+                    </div>
+                    <Button input="Reset" onClick={()=>{console.log("reset")}}/>
+
+                    </div>
             </form>
         </>
     );

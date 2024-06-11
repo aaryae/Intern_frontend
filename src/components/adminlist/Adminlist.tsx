@@ -29,7 +29,6 @@ const Adminlist = () => {
         total: undefined,
         totalPages: undefined,
     });
-
     //searchstate
     const [searchval, setsearchval] = useState<string>('')
     //if user not found then message state
@@ -142,7 +141,6 @@ const Adminlist = () => {
 
     const updatepaginationlist = (paginationnumber: number) => {
         setonpagechange(paginationnumber)
-
     }
 
     
@@ -150,7 +148,7 @@ const Adminlist = () => {
         setsearchval(searchdata);
     }
   
-
+    
     return (
         <div className=" flex flex-col items-center justify-center">
             <Heading value="Admin List" />
@@ -250,7 +248,7 @@ const Adminlist = () => {
                             <div className="flex justify-end">
                                 <span className="text-red-700 cursor-pointer hover:underline" onClick={() => handleitemdata(null)}>close</span>
                             </div>
-                            <Admindetail admindata={admindata} admindatafunction={handleUserUpdate} dialog={handlepopup} />
+                            <Admindetail admindata={admindata} handleUserUpdate={handleUserUpdate} dialog={handlepopup} />
                         </div>
                     </div>
                 )

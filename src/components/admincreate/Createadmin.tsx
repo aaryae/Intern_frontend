@@ -1,5 +1,6 @@
 import { toast } from "@components/toast/ToastManager"
 import { yupResolver } from "@hookform/resolvers/yup"
+import Checkbox from "@utils/themes/components/Checkbox"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { CreateUserInterface } from "types/global.types"
 import Button from "utils/themes/components/Button"
@@ -22,7 +23,9 @@ const createadminschema = yup.object().shape({
             en: yup.string().required('Last Name is required !'),
             ne: yup.string().optional(),
         }),
-        phoneNumber: yup.string().required('phonenumber required !')
+        phoneNumber: yup.string().required('phone number required !')
+        .min(10,'phone number less than 10 digits')
+        .max(10, "phone number more than 10 digits")
     }),
     email: yup.string().matches(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, 'Invalid email format').required('Email is required'),
     password: yup.string().required('Password is required')
@@ -70,6 +73,7 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
             });
             toast.show({ title: "Success", content: "Updated successfully", duration: 2000, type: 'success' });
             onAdminCreated();
+            console.log(data)
 
         } catch (error) {
             toast.show({ title: "Error", content: "unsuccessfully", duration: 2000, type: 'error' });
@@ -139,7 +143,7 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
                     </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-2">
-                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <Label value="phonenumber" />
                         <InputField readonly={false} register={register} type="number" placeholder="" name="details.phoneNumber" />
                         {errors.details?.phoneNumber &&
@@ -147,39 +151,34 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
                         }
 
                     </div>
-                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <div className="relative">
-                            <Label value="Manage Admin" />
-                            <SelectInput
-                                name="allowedFeatures"
-                                register={register}
-                                options={[
-                                    { value: 'MANAGE_ADMIN', label: 'manage admin' },
-                                    { value: 'SETUP', label: 'SETUP' },
-
-                                ]}
-                            />
-
-                        </div>
-                    </div>
-                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <div className="relative">
-                            <Label value="roles" />
-                            <SelectInput
-                                register={register}
-                                name="role"
-                                options={[
-                                    { value: 'ADMIN', label: "admin" },
-                                    { value: 'SUPER_ADMIN', label: " super admin" },
-                                    { value: 'SUDO_ADMIN', label: " sudo admin" },
-                                    { value: 'USER', label: "User" },
-                                ]}
-                            />
-                        </div>
-                    </div>
-
-
+                            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <div className="relative"> 
+                                    <Label value="roles" />
+                                    <SelectInput
+                                        register={register}
+                                        name="role"
+                                        options={[
+                                            { value: 'ADMIN', label: "admin" },
+                                            { value: 'SUPER_ADMIN', label: " super admin" },
+                                            { value: 'SUDO_ADMIN', label: " sudo admin" },
+                                            { value: 'USER', label: "User" },
+                                        ]}
+                                    />
+                                </div>
+                            </div>
                 </div>
+                    <div className="w-full md:w-1/2 pt-3 mb-6 mt-2 md:mb-0 ">
+                        <div className="">
+                            <Label value="Manage Admin" />
+                           
+                            <Checkbox register={register} name="allowedFeatures" 
+                             options={[
+                                { value: 'MANAGE_ADMIN', label: 'Manage Admin' },
+                                { value: 'SETUP', label: 'Setup' },
+                            ]}
+                            />
+                        </div>
+                    </div>
                 <Button input="Submit" onClick={handleSubmit(onSubmit)} />
 
             </form>

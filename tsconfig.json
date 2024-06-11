@@ -22,12 +22,15 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./src/",
+    "types": [
+      "vite/client"
+    ],
     "paths": {
       "@assets/*": [
         "assets/*"
       ],
-      "@pages/*": [
-        "pages/*"
+      "@templates/*": [
+        "templates/*"
       ],
       "@components/*": [
         "components/*"
@@ -35,17 +38,31 @@
       "@config/*": [
         "config/*"
       ],
-      "@templates/*": [
-        "templates/*"
+      "@context/*": [
+        "context/*"
       ],
-      "@service/*": [
-        "service/*"
+      "@data/*": [
+        "data/*"
       ],
+      "@interface/*": [
+        "interface/*"
+      ],
+      "@types/*": [
+        "types/*"
+      ],
+      "@pages/*": [
+        "pages/*"
+      ],
+      "@services/*": [
+        "services/*"
+      ],
+      "@utils/*": [
+        "utils/*"
+      ]
     }
   },
   "include": [
-    "src",
-    "src/components/adminsidebar"
+    "src"
   ],
   "references": [
     {

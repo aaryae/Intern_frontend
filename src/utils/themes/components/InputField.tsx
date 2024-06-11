@@ -10,7 +10,7 @@ const InputField = ({ type = 'text', register, placeholder, name, readonly }: In
     };
 
     const inputType = type === 'password' && showPassword ? 'text' : type;
-
+    
     return (
         <div className="relative">
             <input
@@ -21,7 +21,6 @@ const InputField = ({ type = 'text', register, placeholder, name, readonly }: In
                 {...register(name)}
                 className={`appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white `}
             />
-
 
             {type === 'password' && (
                 <div

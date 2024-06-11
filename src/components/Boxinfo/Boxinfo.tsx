@@ -28,4 +28,4 @@ const Boxinfo = () => {
     )
 }
 
-export default Boxinfo
+export default Boxinfo;

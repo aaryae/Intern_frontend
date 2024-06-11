@@ -1,4 +1,5 @@
-import Adminnavbar from "@components/adminnavbar/Adminnavbar";
+// import Adminnavbar from "@components/adminnavbar/Adminnavbar";
+import Adminnavbar from "@components/AdminNavbar/Adminnavbar";
 import Adminsidebar from "@components/adminsidebar/Adminsidebar";
 import { Outlet } from "react-router-dom";
 

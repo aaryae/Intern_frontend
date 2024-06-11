@@ -9,13 +9,19 @@ import Heading from "utils/themes/components/Heading";
 import { default as axios, default as axiosInstance } from "../../service/Instance";
 
 const Adminlist = () => {
+    //state for storing the get method of the api 
     const [fetchdata, setfetchdata] = useState<apiresponse[]>([]);
+    //state that is use to send to editadmin for the default value that we get from the fetchdata
     const [admindata, setadmindata] = useState<apiresponse | editUserInterface | null>();
+    // modal state that is use for redirecting to adminlist when update or view admin list
     const [popup, setpopup] = useState<boolean>(false);
+    //state for sorting
     const [sortList, setSortList] = useState<boolean>(true);
+    //state for roles
     const [roleDetails, setRoleDetails] = useState<{ [key: string]: number }>({});
-    const [perpage, setperpage] = useState<number>(5)
     const [showRoleDetails, setShowRoleDetails] = useState<boolean>(false);
+    //pagination 
+    const [perpage, setperpage] = useState<number>(5)
     const [onpagechange, setonpagechange] = useState<number>(1)
     const [paginationdata, setpaginationdata] = useState<paginationdatatype>({
         currentPage: 1,
@@ -30,31 +36,38 @@ const Adminlist = () => {
     const [errormessage, seterrormessage] = useState<string>('')
 
     //initial fetch of the adminlists
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
+    const fetchadminlist = async (onpagechange:number, perpage:number, searchval:string) => {
+        try {
                 const response = await axios({
                     method: 'get',
                     url: '/admin',
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
-                    },
-                    params: {
-                        perpage: 5
-                    }
-                });
-
-                setfetchdata(response.data.data?.data);
-                setpaginationdata(response.data.data?.pagination);
-
-
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchData();
-    }, []);
+                        },
+                        params: {
+                        search:searchval,
+                        page:onpagechange,
+                        perpage: perpage,
+                        
+                        }
+                        });
+                        if (response.data.data?.data.length === 0) {
+                                        seterrormessage(" UserName not found .")
+                                    } else {
+                                        seterrormessage('')
+                                    }
+                        setfetchdata(response.data.data?.data);
+                        setpaginationdata(response.data.data?.pagination);
+                        
+                        
+                        } catch (error) {
+                            console.error(error);
+                            }
+                            };
+                            
+     useEffect(() => {
+        fetchadminlist(onpagechange, perpage,searchval);
+    }, [onpagechange, perpage,searchval]);
     //delete of the user
     const handledelete = (id?: string) => {
         const deletedata = async () => {
@@ -120,31 +133,11 @@ const Adminlist = () => {
         handlepopup();
     };
 
+    //popup that is use to pass to the createadmin.tsx for closing the modal after returning true
     const handlepopup = () => {
         setpopup(prevpopup => !prevpopup);
     };
 
-
-    //paginationfetch
-    const handlepagination = async (page: number, perpage?: number) => {
-        try {
-            const response = await axios({
-                method: 'get',
-                url: '/admin',
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
-                },
-                params: {
-                    page: page,
-                    perpage: perpage,
-                }
-            });
-            setfetchdata(response.data.data?.data);
-            setpaginationdata(response.data.data?.pagination);
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
 
     const updatepaginationlist = (paginationnumber: number) => {
@@ -152,48 +145,11 @@ const Adminlist = () => {
 
     }
 
-    useEffect(() => {
-        handlepagination(onpagechange, perpage)
-    }, [onpagechange, perpage])
-
-
-
-    //search username
-    const searchadminname = async (searchval: string, perpage: number) => {
-        try {
-            const response = await axios({
-                method: 'get',
-                url: '/admin',
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
-                },
-                params: {
-                    search: searchval,
-                    perpage: perpage
-                }
-            });
-            if (response.data.data?.data.length === 0) {
-                seterrormessage("UserName not found .")
-            } else {
-
-                seterrormessage('')
-            }
-            setfetchdata(response.data.data?.data);
-            setpaginationdata(response.data.data?.pagination);
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
+    
     const handlesearchfunction = (searchdata: string) => {
         setsearchval(searchdata);
     }
-    useEffect(() => {
-        searchadminname(searchval, perpage)
-    }, [searchval, perpage])
-
-
+  
 
     return (
         <div className=" flex flex-col items-center justify-center">
@@ -201,7 +157,7 @@ const Adminlist = () => {
             {/* searchbar */}
 
             <Searchadmin handlesearchfunction={handlesearchfunction} />
-            <p className="text-sm text-red-700"> {errormessage}</p>
+            <span className="text-sm text-red-700 p-2"> {errormessage}</span>
 
             {/* admin table */}
             <div className="w-full overflow-x-auto ">
@@ -255,7 +211,7 @@ const Adminlist = () => {
                     <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
 
                         {/* perpage search */}
-                        <div>
+                        
                             <p className="text-sm text-gray-700">
                                 Per page
                                 <select
@@ -265,7 +221,7 @@ const Adminlist = () => {
                                     onChange={(e) => {
                                         const newPerPage = Number(e.target.value);
                                         setperpage(newPerPage);
-                                        handlepagination(1, newPerPage);
+                                        // fetchadminlist(onpagechange, perpage,searchval) 
                                     }}
                                 >
                                     {[5, 10, 15, 20].map((value, index) => (
@@ -273,7 +229,7 @@ const Adminlist = () => {
                                     ))}
                                 </select>
                             </p>
-                        </div>
+                    
 
                         {/* paginationslider */}
 

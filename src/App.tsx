@@ -1,4 +1,4 @@
-import Admindashboard from '@components/admindashboard/Admindashboard';
+import  Admindashboard from '@components/adminDashboard/Admindashboard'
 import Adminhome from '@components/adminhome/Adminhome';
 import UpdatePassword from '@components/adminpassword/UpdatePassword';
 import Manageadmin from '@components/manageadmin/Manageadmin';
@@ -6,7 +6,8 @@ import ProtectedRoute from '@components/protectedroute/Protectedroute';
 import Userpage from '@components/userpage/Userpage';
 import Home from '@pages/Home';
 import Login from '@pages/Login';
-import Template from '@templates/Template';
+import Template from '@templates/Template'
+
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 
@@ -28,7 +29,6 @@ const router = createBrowserRouter([
       { index: true, element: <Adminhome /> },
       { path: 'manageadmin', element: <Manageadmin /> },
       { path: 'dashboard', element: <Admindashboard /> },
-
       { path: 'changepassword', element: <UpdatePassword /> },
     ]
   }

@@ -4,7 +4,6 @@ import Searchadmin from "@components/searchadmin/Searchadmin";
 import { ChevronDown, ChevronUp, MoveLeft, MoveRight } from 'lucide-react';
 import { useEffect, useState } from "react";
 import { apiresponse, editUserInterface, paginationdatatype } from "types/global.types";
-import Button from "utils/themes/components/Button";
 import Heading from "utils/themes/components/Heading";
 import { default as axios, default as axiosInstance } from "../../service/Instance";
 
@@ -17,9 +16,7 @@ const Adminlist = () => {
     const [popup, setpopup] = useState<boolean>(false);
     //state for sorting
     const [sortList, setSortList] = useState<boolean>(true);
-    //state for roles
-    const [roleDetails, setRoleDetails] = useState<{ [key: string]: number }>({});
-    const [showRoleDetails, setShowRoleDetails] = useState<boolean>(false);
+  
     //pagination 
     const [perpage, setperpage] = useState<number>(5)
     const [onpagechange, setonpagechange] = useState<number>(1)
@@ -57,7 +54,7 @@ const Adminlist = () => {
                                     }
                         setfetchdata(response.data.data?.data);
                         setpaginationdata(response.data.data?.pagination);
-                        console.log(paginationdata)
+                     
                         
                         
                         } catch (error) {
@@ -109,22 +106,7 @@ const Adminlist = () => {
             return newStatus;
         });
     };
-    //roledetail
-    const showroledetail = () => {
-        const roleCounts: { [key: string]: number } = {};
-
-        fetchdata.forEach(item => {
-            const role = item.role?.toLowerCase().replace("_", " ");
-            if (role) {
-                if (!roleCounts[role]) {
-                    roleCounts[role] = 0;
-                }
-                roleCounts[role]++;
-            }
-        });
-        setRoleDetails(roleCounts);
-        setShowRoleDetails(true);
-    };
+    
     //Userupdate
     const handleUserUpdate = (updatedUser: apiresponse) => {
         setfetchdata((prevfetchdata) =>
@@ -254,27 +236,8 @@ const Adminlist = () => {
                     </div>
                 )
             }
-            {/* Role details */}
-            <div className="absolute top-16 right-44">
-                <Button input="role details" onClick={showroledetail} />
-            </div>
-            {
-                showRoleDetails && (
-                    <div className="fixed flex items-center justify-center bg-black inset-0 bg-opacity-50">
-                        <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-                            <div className="flex justify-end">
-                                <span className="text-red-700 cursor-pointer hover:underline" onClick={() => setShowRoleDetails(false)}>close</span>
-                            </div>
-                            <h2 className="text-xl font-bold mb-4">Role Details</h2>
-                            <ul>
-                                {Object.entries(roleDetails).map(([role, count]) => (
-                                    <li key={role} className="mb-2"><span className="font-bold">{role}</span>: {count}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                )
-            }
+            
+           
         </div >
     );
 };

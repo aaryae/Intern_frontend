@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Label from "utils/themes/components/Label";
 
 interface searchtype {
     handlesearchfunction: (searchdata: string) => void
@@ -40,8 +39,7 @@ const SearchAdmin = ({ handlesearchfunction }: searchtype) => {
 
 
     return (
-        <div className="flex">
-            <Label value="Search user:" />
+        <div className="flex w-full justify-end">
             <div className="m-4 border">
                 <div className="relative">
                     <div className="absolute inset-y-0 flex items-center p-3 pointer-events-none">

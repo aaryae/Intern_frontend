@@ -20,8 +20,8 @@ interface getdatatype {
 const Editadmin = ({ listdata, admindata, handleUserUpdate, dialog }: getdatatype) => {
     const [state, setstate] = useState<boolean>(true);
     const [handletoggle, sethandletoggle] = useState<boolean>(false);
-    const { register, handleSubmit, reset, getValues } = useForm<editUserInterface>({ defaultValues: listdata });
-
+    const { register, handleSubmit} = useForm<editUserInterface>({ defaultValues: listdata });
+    // reset, getValues 
     console.log(handletoggle);
 
     const handleupdate: SubmitHandler<editUserInterface> = async (data) => {
@@ -76,18 +76,18 @@ const Editadmin = ({ listdata, admindata, handleUserUpdate, dialog }: getdatatyp
         sethandletoggle(prevhandletoggle => !prevhandletoggle);
     };
 
-    const handlereset = () => {
-        const values = getValues();
-        reset({
-            ...values,
-            details: {
-                ...values.details,
-                firstName: { en: '', ne: values.details?.firstName?.ne },
-                lastName: { en: '', ne: values.details?.lastName?.ne },
-                phoneNumber: '',
-            }
-        });
-    };
+    // const handlereset = () => {
+    //     const values = getValues();
+    //     reset({
+    //         ...values,
+    //         details: {
+    //             ...values.details,
+    //             firstName: { en: '', ne: values.details?.firstName?.ne },
+    //             lastName: { en: '', ne: values.details?.lastName?.ne },
+    //             phoneNumber: '',
+    //         }
+    //     });
+    // };
 
     return (
         <>
@@ -140,6 +140,7 @@ const Editadmin = ({ listdata, admindata, handleUserUpdate, dialog }: getdatatyp
                     />
                 </div>
                 <Button
+                type="submit"
                     input="Update"
                     onClick={() => {
                         handlepopup();
@@ -148,7 +149,7 @@ const Editadmin = ({ listdata, admindata, handleUserUpdate, dialog }: getdatatyp
                     }}
                 />
             </form>
-                <button className="text-red-700 underline pl-6 " type="submit" onClick={handlereset} >reset form</button>
+                {/* <button className="text-red-700 underline pl-6 " type="submit" onClick={handlereset} >reset form</button> */}
         </>
     );
 };

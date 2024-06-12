@@ -39,7 +39,7 @@ interface navigatetolisttype {
 }
 
 const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
-    const { register, handleSubmit, formState: { errors } } = useForm<CreateUserInterface>(
+    const { register, handleSubmit, formState: { errors } ,reset} = useForm<CreateUserInterface>(
         {
             resolver: yupResolver(createadminschema)
         }
@@ -89,8 +89,8 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 
-                        <Label value="firstname" />
-                        <Label value="In english" />
+                        <Label value="firstname"  />
+                        <Label value="In english" required={true} />
                         <InputField readonly={false} register={register} type="text" placeholder="First Name" name="details.firstName.en" />
                         {errors.details?.firstName?.en &&
                             <span className="text-red-500 text-sm mt-1">{errors.details?.firstName?.en.message}</span>
@@ -107,7 +107,7 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
 
                         <Label value="lastname" />
-                        <Label value="In english" />
+                        <Label value="In english" required={true} />
                         <InputField readonly={false} register={register} type="text" placeholder="Last Name" name="details.lastName.en" />
                         {errors.details?.lastName?.en &&
                             <span className="text-red-500 text-sm mt-1">{errors.details?.lastName?.en.message}</span>
@@ -124,7 +124,7 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full px-3">
-                        <Label value="email" />
+                        <Label value="email" required={true} />
                         <InputField readonly={false} register={register} type="email" placeholder="Enter Your Email" name="email" />
                         {errors.email &&
                             <span className="text-red-500 text-sm mt-1">{errors.email?.message}</span>
@@ -134,7 +134,7 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full px-3">
-                        <Label value="password" />
+                        <Label value="password" required={true}/>
                         <InputField readonly={false} register={register} type="password" placeholder="......." name="password" />
                         {errors.password &&
                             <span className="text-red-500 text-sm mt-1">{errors.password?.message}</span>
@@ -143,7 +143,7 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-2">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <Label value="phonenumber" />
+                        <Label value="phonenumber" required={true}/>
                         <InputField readonly={false} register={register} type="number" placeholder="" name="details.phoneNumber" />
                         {errors.details?.phoneNumber &&
                             <span className="text-red-500 text-sm mt-1">{errors.details?.phoneNumber?.message}</span>
@@ -152,7 +152,7 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
                     </div>
                             <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                 <div className="relative"> 
-                                    <Label value="roles" />
+                                    <Label value="roles" required={true}/>
                                     <SelectInput
                                         register={register}
                                         name="role"
@@ -168,7 +168,7 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
                 </div>
                     <div className="w-full md:w-1/2 pt-3 mb-6 mt-2 md:mb-0 ">
                         <div className="">
-                            <Label value="Manage Admin" />
+                            <Label value="Manage Admin" required={true}/>
                            
                             <Checkbox register={register} name="allowedFeature" 
                              options={[
@@ -178,7 +178,9 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
                             />
                         </div>
                     </div>
-                <Button input="Submit" onClick={handleSubmit(onSubmit)} />
+                <Button type="submit" input="Submit" onClick={handleSubmit(onSubmit)} />
+                <Button type="button" input="Reset" onClick={()=>reset()} />
+                    
 
             </form>
         </div>

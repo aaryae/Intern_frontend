@@ -45,8 +45,6 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
         }
     )
 
-
-
     const onSubmit: SubmitHandler<CreateUserInterface> = async (data) => {
         try {
             console.log(data)

@@ -19,7 +19,7 @@ const InputField = ({ type = 'text', register, placeholder, name, readonly }: In
                 id={name}
                 placeholder={placeholder}
                 {...register(name)}
-                className={`appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white `}
+                className={`appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white ${!readonly ? '' : 'cursor-not-allowed bg-[#0000005d]'}`}
             />
 
             {type === 'password' && (

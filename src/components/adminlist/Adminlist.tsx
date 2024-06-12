@@ -26,8 +26,8 @@ const Adminlist = () => {
     const [paginationdata, setpaginationdata] = useState<paginationdatatype>({
         currentPage: 1,
         perpage,
-        total: undefined,
-        totalPages: undefined,
+        total: 10,
+        totalPages: 1,
     });
     //searchstate
     const [searchval, setsearchval] = useState<string>('')
@@ -57,6 +57,7 @@ const Adminlist = () => {
                                     }
                         setfetchdata(response.data.data?.data);
                         setpaginationdata(response.data.data?.pagination);
+                        console.log(paginationdata)
                         
                         
                         } catch (error) {
@@ -181,7 +182,7 @@ const Adminlist = () => {
                     <tbody className="border-2 border-black">
                         {fetchdata && fetchdata.map((item, index) => (
                             <tr key={index} className="border">
-                                <td className="border-2 border-black py-2 ">{index + 1}</td>
+                                <td className="border-2 border-black py-2 ">{(paginationdata?.currentPage-1)*paginationdata?.perpage+index+1}</td>
                                 <td className="border-2 border-black py-2">{item.details.firstName?.en}</td>
                                 <td className="border-2 border-black py-2">{item.details.lastName?.en}</td>
                                 <td className="border-2 border-black py-2">{item.details.phoneNumber ?? "NULL"}</td>

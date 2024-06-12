@@ -79,8 +79,8 @@ export interface CreateUserInterface {
 export interface paginationdatatype {
     currentPage: number
     perpage: number
-    total?: number
-    totalPages?: number
+    total: number
+    totalPages: number
 }
 
 

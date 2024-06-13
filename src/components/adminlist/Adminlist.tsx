@@ -1,7 +1,7 @@
 import Admindetail from "@components/admindetail/Admindetail";
 import Paginationlist from "@components/paginationlist/Paginationlist";
 import Searchadmin from "@components/searchadmin/Searchadmin";
-import { ChevronDown, ChevronUp, MoveLeft, MoveRight } from 'lucide-react';
+import { ChevronDown, ChevronUp, X } from 'lucide-react';
 import { useEffect, useState } from "react";
 import { apiresponse, editUserInterface, paginationdatatype } from "types/global.types";
 import Heading from "utils/themes/components/Heading";
@@ -16,7 +16,9 @@ const Adminlist = () => {
     const [popup, setpopup] = useState<boolean>(false);
     //state for sorting
     const [sortList, setSortList] = useState<boolean>(true);
-  
+    // popup for delete
+    const [deletepopup, setdeletepopup] = useState<boolean>(false)
+
     //pagination 
     const [perpage, setperpage] = useState<number>(5)
     const [onpagechange, setonpagechange] = useState<number>(1)
@@ -32,39 +34,40 @@ const Adminlist = () => {
     const [errormessage, seterrormessage] = useState<string>('')
 
     //initial fetch of the adminlists
-    const fetchadminlist = async (onpagechange:number, perpage:number, searchval:string) => {
+    const fetchadminlist = async (onpagechange: number, perpage: number, searchval: string) => {
         try {
-                const response = await axios({
-                    method: 'get',
-                    url: '/admin',
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
-                        },
-                        params: {
-                        search:searchval,
-                        page:onpagechange,
-                        perpage: perpage,
-                        
-                        }
-                        });
-                        if (response.data.data?.data.length === 0) {
-                                        seterrormessage(" UserName not found .")
-                                    } else {
-                                        seterrormessage('')
-                                    }
-                        setfetchdata(response.data.data?.data);
-                        setpaginationdata(response.data.data?.pagination);
-                     
-                        
-                        
-                        } catch (error) {
-                            console.error(error);
-                            }
-                            };
-                            
-     useEffect(() => {
-        fetchadminlist(onpagechange, perpage,searchval);
-    }, [onpagechange, perpage,searchval]);
+            const response = await axios({
+                method: 'get',
+                url: '/admin',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accesstoken')}`,
+                },
+                params: {
+                    search: searchval,
+                    page: onpagechange,
+                    perpage: perpage,
+
+                }
+            });
+            if (response.data.data?.data.length === 0) {
+                seterrormessage(" UserName not found .")
+            } else {
+                seterrormessage('')
+            }
+            setfetchdata(response.data.data?.data);
+            setpaginationdata(response.data.data?.pagination);
+
+
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchadminlist(onpagechange, perpage, searchval);
+    }, [onpagechange, perpage, searchval]);
+
     //delete of the user
     const handledelete = (id?: string) => {
         const deletedata = async () => {
@@ -76,11 +79,11 @@ const Adminlist = () => {
                 });
 
                 setfetchdata(prevData => prevData.filter(item => item.id !== id));
+                fetchadminlist(onpagechange, perpage, searchval);
             } catch (error) {
                 console.error(error);
             }
         };
-
         deletedata();
     };
 
@@ -106,7 +109,7 @@ const Adminlist = () => {
             return newStatus;
         });
     };
-    
+
     //Userupdate
     const handleUserUpdate = (updatedUser: apiresponse) => {
         setfetchdata((prevfetchdata) =>
@@ -126,12 +129,12 @@ const Adminlist = () => {
         setonpagechange(paginationnumber)
     }
 
-    
+
     const handlesearchfunction = (searchdata: string) => {
         setsearchval(searchdata);
     }
-  
-    
+
+
     return (
         <div className=" flex flex-col items-center justify-center">
             <Heading value="Admin List" />
@@ -164,7 +167,7 @@ const Adminlist = () => {
                     <tbody className="border-2 border-black">
                         {fetchdata && fetchdata.map((item, index) => (
                             <tr key={index} className="border">
-                                <td className="border-2 border-black py-2 ">{(paginationdata?.currentPage-1)*paginationdata?.perpage+index+1}</td>
+                                <td className="border-2 border-black py-2 ">{(paginationdata?.currentPage - 1) * paginationdata?.perpage + index + 1}</td>
                                 <td className="border-2 border-black py-2">{item.details.firstName?.en}</td>
                                 <td className="border-2 border-black py-2">{item.details.lastName?.en}</td>
                                 <td className="border-2 border-black py-2">{item.details.phoneNumber ?? "NULL"}</td>
@@ -175,13 +178,34 @@ const Adminlist = () => {
                                     <p onClick={() => handleitemdata(item)} className="underline cursor-pointer text-blue-600 hover:text-red-700">view</p>
                                 </td>
                                 <td className="border-2 border-black">
-                                    <div onClick={() => handledelete(item?.id)}>
+                                    <div onClick={() => setdeletepopup(prevData => !prevData)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-trash text-red-800 flex items-center w-full cursor-pointer">
                                             <path d="M3 6h18" />
                                             <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
                                             <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
                                         </svg>
                                     </div>
+
+                                    {/* popup for delete */}
+                                    {
+                                        deletepopup && (
+                                            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                                                <div className="bg-white text-black p-6 rounded-lg shadow-lg ">
+                                                    <div className='w-full  flex justify-center my-6'>
+                                                        <div className='w-fit p-2 border-2 border-black rounded-full text-center'>
+                                                            <X size={48} strokeWidth={3} color="#ff0000" />
+                                                        </div>
+                                                    </div>
+                                                    <h1 className="text-2xl text-[#000000be] font-semibold mb-4">You are about to Logout</h1>
+                                                    <p className="mb-4 text-[#00000085]">Do you really want to logout?</p>
+                                                    <div className="flex gap-2 justify-evenly">
+                                                        <button onClick={() => { handledelete(item?.id); setdeletepopup(false) }} className="px-4 py-2 my-2  bg-red-700 text-white rounded hover:bg-red-700 transition duration-200">Yes</button>
+                                                        <button onClick={() => setdeletepopup(prevData => !prevData)} className="px-4 py-2 my-2 bg-[#000000d7] text-white rounded hover:bg-gray-700 transition duration-200">No</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
                                 </td>
                             </tr>
                         ))}
@@ -192,32 +216,32 @@ const Adminlist = () => {
                     <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
 
                         {/* perpage search */}
-                        
-                            <p className="text-sm text-gray-700">
-                                Per page
-                                <select
-                                    name="perPage"
-                                    id="perPage"
-                                    className="ml-2"
-                                    onChange={(e) => {
-                                        const newPerPage = Number(e.target.value);
-                                        setperpage(newPerPage);
-                                        // fetchadminlist(onpagechange, perpage,searchval) 
-                                    }}
-                                >
-                                    {[5, 10, 15, 20].map((value, index) => (
-                                        <option key={index} value={value}>{value}</option>
-                                    ))}
-                                </select>
-                            </p>
-                    
+
+                        <p className="text-sm text-gray-700">
+                            Per page
+                            <select
+                                name="perPage"
+                                id="perPage"
+                                className="ml-2"
+                                onChange={(e) => {
+                                    const newPerPage = Number(e.target.value);
+                                    setperpage(newPerPage);
+                                    // fetchadminlist(onpagechange, perpage,searchval) 
+                                }}
+                            >
+                                {[5, 10, 15, 20].map((value, index) => (
+                                    <option key={index} value={value}>{value}</option>
+                                ))}
+                            </select>
+                        </p>
+
 
                         {/* paginationslider */}
 
-                        <div className="flex gap-2">
-                            <MoveLeft />
+                        <div >
+
                             <Paginationlist totalPages={paginationdata.totalPages} updatepaginationlist={updatepaginationlist} />
-                            <MoveRight />
+
                         </div>
                     </div>
                 </div>
@@ -236,8 +260,6 @@ const Adminlist = () => {
                     </div>
                 )
             }
-            
-           
         </div >
     );
 };

@@ -1,4 +1,5 @@
 import { toast } from "@components/toast/ToastManager";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import encryptDecrypt from "functions/encryptDecrypt";
 import { Eye, EyeOff } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -62,10 +63,39 @@ const Log = () => {
         }
     };
 
+    const ongoogleSubmit = async (credentialResponse:CredentialResponse) => {
+        try {
+            const response = await axios({
+                method: 'post',
+                url: '/auth/google',
+                data: {
+                    googleId: credentialResponse?.credential
+                }
+            });
+
+            const encrypted = encrypt(response.data.data.tokens.accessToken);
+
+            if (response.data.data.admin.role === 'USER') {
+                navigate("/user");
+            } else {
+                navigate('/admin');
+            }
+
+            localStorage.setItem("accesstoken", encrypted as string);
+
+            toast.show({ title: "Success", content: "Login successfully", duration: 2000, type: 'success' });
+        } catch (error) {
+            toast.show({ title: "Error", content: "Login unsuccessfully", duration: 2000, type: 'error' });
+            console.error(error);
+        }
+    };
+
+
     const handlepasswordshow = () => {
         setshowpassword(prevshowpassword => !prevshowpassword);
     };
 
+  
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="mx-auto flex min-h-screen w-full items-center justify-center bg-gray-900 text-white">
             <section className="flex w-[30rem] flex-col space-y-10">
@@ -129,6 +159,16 @@ const Log = () => {
                     No account?
                     <a href="#" className="font-medium text-indigo-500 underline-offset-4 hover:underline">Create One</a>
                 </p>
+                <div className="self-center">
+            <GoogleLogin onSuccess={(credentialResponse)=>{
+                ongoogleSubmit(credentialResponse)
+            }}
+            onError={()=>{
+                console.log('login failed')
+            }}
+            />
+                    
+                </div>
             </section>
         </form>
     );

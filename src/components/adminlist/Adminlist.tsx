@@ -79,7 +79,7 @@ const Adminlist = () => {
                 });
 
                 setfetchdata(prevData => prevData.filter(item => item.id !== id));
-                fetchadminlist(onpagechange, perpage, searchval);
+                fetchadminlist (onpagechange,perpage, searchval)
             } catch (error) {
                 console.error(error);
             }

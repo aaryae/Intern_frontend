@@ -1,4 +1,5 @@
 import { toast } from "@components/toast/ToastManager"
+import Uploadmedia from "@components/uploadmedia/Uploadmedia"
 import { yupResolver } from "@hookform/resolvers/yup"
 import Checkbox from "@utils/themes/components/Checkbox"
 import { SubmitHandler, useForm } from "react-hook-form"
@@ -178,11 +179,13 @@ const Createadmin = ({ onAdminCreated }: navigatetolisttype) => {
                             />
                         </div>
                     </div>
+                   
                 <Button type="submit" input="Submit" onClick={handleSubmit(onSubmit)} />
-                <Button type="button" input="Reset" onClick={()=>reset()} />
-                    
-
+                <br />
+                <button onClick={()=>reset()} className="text-red-500 underline hover:rext-red-800 pl-3 " >reset</button>   
             </form>
+            <Uploadmedia/>
+            
         </div>
     )
 }
